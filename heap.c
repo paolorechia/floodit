@@ -27,10 +27,10 @@ int min_heapify(theap * heap, int i){
     int dir = dir_h(i);
     int menor;
     tcelula_h * V = heap->vetor;
-    if (esq <= heap->tam && V[esq].chave < V[i].chave)
+    if (esq < heap->tam && V[esq].chave < V[i].chave)
         menor = esq;
     else menor = i;
-    if (dir <= heap->tam && V[dir].chave < V[menor].chave)
+    if (dir < heap->tam && V[dir].chave < V[menor].chave)
         menor = dir;
     if (menor != i) {
         int aux = V[i].chave;
@@ -42,14 +42,11 @@ int min_heapify(theap * heap, int i){
 }
 
 int constroi_min_heap(theap * heap){
-    int n = heap->tam/2;
+    int n = (heap->tam/2) + 1;
     for (int i = n; i > -1; i--){
         min_heapify(heap, i);
     } 
 }
-
-
-
 
 
 
