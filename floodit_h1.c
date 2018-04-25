@@ -28,8 +28,8 @@ int main(int argc, char **argv) {
     ncor = 0;
     for(i = 1; i <= m.ncores; i++)
       if(ncorfront[i] > ncor) {
-	ncor = ncorfront[i];
-	cor = i;
+        ncor = ncorfront[i];
+        cor = i;
       }
     pinta_mapa(&m, cor);
     insere_plano(p, cor);
