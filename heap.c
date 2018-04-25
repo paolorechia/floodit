@@ -56,6 +56,11 @@ int constroi_min_heap(theap * heap){
     } 
 }
 
+int min_h(theap * heap){};
+tcelula_h * pega_min_h(theap * heap){};
+int insere_h(theap * heap, int chave, int * p_dado);
+int aumenta_chave_h(theap * heap, int i, int nova_chave);
+
 
 
 
