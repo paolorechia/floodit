@@ -26,7 +26,7 @@ int troca_h(tcelula_h * elem1, tcelula_h * elem2){
     return 0;
 }
 
-int pai_h(int i)   { return i/2;     }
+int pai_h(int i)   { return i/2 - 1;     }
 int esq_h(int i)  { return 2*i + 1;     }
 int dir_h(int i) { return 2*i + 2; }
 
