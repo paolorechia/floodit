@@ -16,6 +16,17 @@ int desaloca_h(theap * heap){
     return 0;
 }
 
+int troca_h(tcelula_h * elem1, tcelula_h * elem2){
+    printf("Trocando %d por %d\n", (*elem1).chave, (*elem2).chave);
+    int aux = (*elem1).chave;
+    int * p_aux = (*elem1).ponteiro;
+    (*elem1).chave = (*elem2).chave;
+    (*elem1).ponteiro = (*elem2).ponteiro;
+    (*elem2).chave = aux;
+    (*elem2).ponteiro = p_aux;
+    return 0;
+}
+
 int pai_h(int i)   { return i/2;     }
 int esq_h(int i)  { return 2*i;     }
 int dir_h(int i) { return 2*i + 1; }
@@ -33,16 +44,14 @@ int min_heapify(theap * heap, int i){
     if (dir < heap->tam && V[dir].chave < V[menor].chave)
         menor = dir;
     if (menor != i) {
-        int aux = V[i].chave;
-        V[i].chave = V[menor].chave;
-        V[menor].chave = aux;
+        troca_h(&V[i], &V[menor]);
         min_heapify(heap, menor);
     }
     return 0;
 }
 
 int constroi_min_heap(theap * heap){
-    int n = (heap->tam/2) + 1;
+    int n = (heap->tam/2);
     for (int i = n; i > -1; i--){
         min_heapify(heap, i);
     } 
