@@ -17,7 +17,6 @@ int desaloca_h(theap * heap){
 }
 
 int troca_h(tcelula_h * elem1, tcelula_h * elem2){
-    printf("Trocando %d por %d\n", (*elem1).chave, (*elem2).chave);
     int aux = (*elem1).chave;
     int * p_aux = (*elem1).ponteiro;
     (*elem1).chave = (*elem2).chave;
@@ -28,8 +27,8 @@ int troca_h(tcelula_h * elem1, tcelula_h * elem2){
 }
 
 int pai_h(int i)   { return i/2;     }
-int esq_h(int i)  { return 2*i;     }
-int dir_h(int i) { return 2*i + 1; }
+int esq_h(int i)  { return 2*i + 1;     }
+int dir_h(int i) { return 2*i + 2; }
 
 
 // implementacao das funcoes de Heap do cormen
