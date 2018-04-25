@@ -16,6 +16,10 @@ int aloca_h(theap ** heap, int cap);
 int desaloca_h(theap * heap);
 
 int pai_h(int i);
-int left_h(int i);
-int right_h(int i);
+int esq_h(int i);
+int dir_h(int i);
+
+int min_heapify(theap * heap, int i);
+int constroi_min_heap(theap * heap);
+
 #endif

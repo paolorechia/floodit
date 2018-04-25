@@ -35,7 +35,7 @@ int min_heapify(theap * heap, int i){
     if (menor != i) {
         int aux = V[i].chave;
         V[i].chave = V[menor].chave;
-        V[i].chave = aux;
+        V[menor].chave = aux;
         min_heapify(heap, menor);
     }
     return 0;
@@ -55,15 +55,19 @@ int constroi_min_heap(theap * heap){
 
 
 int main(){
-    int heap_size = 1000; // in bytes
+    int heap_size = 10; // in bytes
     theap * heaptest;
     aloca_h(&heaptest, heap_size);
     for (int i = 0; i < heap_size; i++){
-        heaptest->vetor[i].chave = 1000 - i;
+        heaptest->vetor[i].chave = heap_size- i;
     }
-    min_heapify(heaptest, heap_size);
+    for (int i = 0; i < heap_size; i++){
+        printf("%d ", heaptest->vetor[i].chave);
+    }
+    printf("\n");
+//    min_heapify(heaptest, heap_size/2);
     constroi_min_heap(heaptest);
-    for (int i = 0; i < 100; i++){
+    for (int i = 0; i < heap_size; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
