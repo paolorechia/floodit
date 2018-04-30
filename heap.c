@@ -8,7 +8,7 @@ int aloca_h(theap ** heap, int cap){
     *heap = malloc(sizeof(theap));
     (*heap)->tam = cap;   
     (*heap)->vetor = malloc((*heap)->tam * sizeof(tcelula_h));
-    (*heap)->usado = 0;
+    (*heap)->usado = -1;
     for (int i = 0; i < cap; i++){
         (*heap)->vetor[i].chave = 0;
     }
@@ -84,14 +84,14 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
         printf("Erro\n"); // nova chave ja eh maior
     }
     V[i].chave = nova_chave;
-    while (i > 1 && V[pai_h(i)].chave > V[i].chave){
+    while (i > 0 && V[pai_h(i)].chave > V[i].chave){
         troca_h(&(V[i]), &(V[pai_h(i)]));
         i = pai_h(i); 
     }
     return 0;
 }
 int insere_h(theap * heap, int chave, int * p_dado){
-    if (heap->usado >= heap->tam - 1){
+    if (heap->usado >= heap->tam){
         return - 1; // heap cheia, impossivel inserir
     }
     else{
@@ -157,9 +157,9 @@ int main(){
     int heap_use_size = heaptest->usado;
     for (int i = 0; i < heap_use_size; i++){
         tcelula_h * teste =  pega_min_h(heaptest);
-        if (teste != NULL){
+//        if (teste != NULL){
             printf("%d ", teste->chave);
-        }
+ //       }
     }
     printf("\n");
 
