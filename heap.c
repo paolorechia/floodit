@@ -8,6 +8,9 @@ int aloca_h(theap ** heap, int cap){
     (*heap)->tam = cap;   
     (*heap)->vetor = malloc((*heap)->tam * sizeof(tcelula_h));
     (*heap)->usado = 0;
+    for (int i = 0; i < cap; i++){
+        (*heap)->vetor[i].chave = 0;
+    }
     return 0;
 }
 
@@ -27,9 +30,9 @@ int troca_h(tcelula_h * elem1, tcelula_h * elem2){
     return 0;
 }
 
-int pai_h(int i)   { return i/2 - 1;     }
-int esq_h(int i)  { return 2*i + 1;     }
-int dir_h(int i) { return 2*i + 2; }
+int pai_h(int i)   { return i/2 - 1; }
+int esq_h(int i)   { return 2*i + 1; }
+int dir_h(int i)   { return 2*i + 2; }
 
 
 // implementacao das funcoes de Heap do cormen
@@ -84,35 +87,47 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
     return 0;
 }
 int insere_h(theap * heap, int chave, int * p_dado){
-    if (heap->usado > heap->tam){
+    if (heap->usado >= heap->tam - 1){
         return - 1; // heap cheia, impossivel inserir
     }
-    heap->usado++;
-    heap->vetor[heap->usado].chave = INT_MAX;
-    heap->vetor[heap->usado].ponteiro = p_dado;
-    diminui_chave_h(heap, heap->usado, chave);
-    return 0;
+    else{
+        heap->usado++;
+        heap->vetor[heap->usado].chave = INT_MAX;
+        heap->vetor[heap->usado].ponteiro = p_dado;
+        diminui_chave_h(heap, heap->usado, chave);
+        return 0;
+    }
 }
 
 int main(){
     int heap_size = 100; // in bytes
     int items_usados = 10;
+    int * a = malloc(sizeof(int));
+    int * b = malloc(sizeof(int));
+    (*a) = 2;
+    (*b) = 5;
     theap * heaptest;
     aloca_h(&heaptest, items_usados);
+    char * MSG1="Inserindo items na heap";
+    char * MSG2="Construindo min-heap";
+
+    printf("%s\n", MSG1);
     for (int i = 0; i < items_usados; i++){
-//        heaptest->vetor[i].chave = items_usados- i;
-        insere_h(heaptest, items_usados - i, &heap_size);
+        insere_h(heaptest, items_usados - i, a);
     }
     for (int i = 0; i < items_usados; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
-//    min_heapify(heaptest, items_usados/2);
+
+    printf("%s\n", MSG2);
     constroi_min_heap(heaptest);
     for (int i = 0; i < items_usados; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
     desaloca_h(heaptest);
+    free(a);
+    free(b);
     return 0;
 }
