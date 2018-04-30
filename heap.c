@@ -3,6 +3,7 @@
 #include <limits.h>
 #include "heap.h"
 
+
 int aloca_h(theap ** heap, int cap){
     *heap = malloc(sizeof(theap));
     (*heap)->tam = cap;   
@@ -103,7 +104,20 @@ int insere_h(theap * heap, int chave, int * p_dado){
 }
 
 int main(){
-    int heap_size = 100; // in bytes
+    long unsigned int kb = 1024;
+    long unsigned int mb = 1024 * kb;
+    long unsigned int gb = 1024 * mb;
+    
+    long unsigned int max_memory = 4 * gb;
+
+    int data_cell_size = 1024; // bytes
+    printf("Tipo heap custa: %lu\n", sizeof(theap));
+    printf("Tipo celula custa: %lu\n", sizeof(tcelula_h));
+    printf("\n");
+
+    printf("Available memory: %lu bytes\n", max_memory);
+    long unsigned int max_heap_size = (max_memory - sizeof(theap))/(sizeof(tcelula_h) + data_cell_size);
+    printf("Max size of heap: %ld cells\n", max_heap_size);
 
     int items_usados = 10;
     int * a = malloc(sizeof(int));
@@ -111,7 +125,8 @@ int main(){
     (*a) = 2;
     (*b) = 5;
     theap * heaptest;
-    aloca_h(&heaptest, items_usados);
+//    aloca_h(&heaptest, kb);
+    aloca_h(&heaptest, max_heap_size);
     char * MSG1="Inserindo items na heap";
     char * MSG2="Construindo min-heap";
     char * MSG3="Extraindo minimos da heap";
