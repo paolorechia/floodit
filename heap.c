@@ -31,7 +31,7 @@ int troca_h(tcelula_h * elem1, tcelula_h * elem2){
     return 0;
 }
 
-int pai_h(int i)   { return i/2 - 1; }
+int pai_h(int i)   { return (i-1)/2; }
 int esq_h(int i)   { return 2*i + 1; }
 int dir_h(int i)   { return 2*i + 2; }
 
@@ -42,10 +42,10 @@ int min_heapify(theap * heap, int i){
     int dir = dir_h(i);
     int menor;
     tcelula_h * V = heap->vetor;
-    if (esq < heap->usado && V[esq].chave < V[i].chave)
+    if (esq <= heap->usado && V[esq].chave < V[i].chave)
         menor = esq;
     else menor = i;
-    if (dir < heap->usado && V[dir].chave < V[menor].chave)
+    if (dir <= heap->usado && V[dir].chave < V[menor].chave)
         menor = dir;
     if (menor != i) {
         troca_h(&V[i], &V[menor]);
@@ -55,7 +55,7 @@ int min_heapify(theap * heap, int i){
 }
 
 int constroi_min_heap(theap * heap){
-    int n = (heap->usado/2);
+    int n = ((heap->usado+1)/2);
     for (int i = n; i > -1; i--){
         min_heapify(heap, i);
     } 
@@ -66,7 +66,7 @@ int min_h(theap * heap){
     return heap->vetor[0].chave;
 }
 tcelula_h * pega_min_h(theap * heap){
-    if (heap->usado < 1){
+    if (heap->usado < 0){
         return NULL;
     } 
     tcelula_h * minimo = malloc(sizeof(tcelula_h));
@@ -84,7 +84,7 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
         printf("Erro\n"); // nova chave ja eh maior
     }
     V[i].chave = nova_chave;
-    while (i > 0 && V[pai_h(i)].chave > V[i].chave){
+    while (i > -1 && V[pai_h(i)].chave > V[i].chave){
         troca_h(&(V[i]), &(V[pai_h(i)]));
         i = pai_h(i); 
     }
@@ -140,26 +140,16 @@ int main(){
     printf("\n");
     
     printf("%s\n", MSG4);
-    for (int i = 0; i < heaptest->usado; i++){
+    for (int i = 0; i <= heaptest->usado; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
 
-/*
-    printf("%s\n", MSG2);
-    constroi_min_heap(heaptest);
-    for (int i = 0; i < heaptest->usado; i++){
-        printf("%d ", heaptest->vetor[i].chave);
-    }
-    printf("\n");
-*/
     printf("%s\n", MSG3);
     int heap_use_size = heaptest->usado;
-    for (int i = 0; i < heap_use_size; i++){
+    for (int i = 0; i <= heap_use_size; i++){
         tcelula_h * teste =  pega_min_h(heaptest);
-//        if (teste != NULL){
-            printf("%d ", teste->chave);
- //       }
+        printf("%d ", teste->chave);
     }
     printf("\n");
 
@@ -170,11 +160,10 @@ int main(){
 
     printf("%s\n", MSG2);
     constroi_min_heap(heaptest);
-    for (int i = 0; i < heaptest->usado; i++){
+    for (int i = 0; i <= heaptest->usado; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
-
 
 
     desaloca_h(heaptest);
