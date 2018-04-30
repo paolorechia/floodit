@@ -16,6 +16,8 @@ verifica: mapa.h mapa.c verifica.c
 
 anima: mapa.h mapa.c anima.c
 
+heap: heap.c heap.c
+
 clean:
 	rm -f floodit geramapa verifica anima *.o
 	rm -f floodit_h1

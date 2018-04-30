@@ -3,7 +3,7 @@
 
 typedef struct{
     int chave;
-    int * ponteiro;
+    void * ponteiro;
 } tcelula_h;
 
 typedef struct{

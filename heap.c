@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "heap.h"
 
 int aloca_h(theap ** heap, int cap){
@@ -54,12 +55,44 @@ int constroi_min_heap(theap * heap){
     for (int i = n; i > -1; i--){
         min_heapify(heap, i);
     } 
+    return 0;
 }
 
-int min_h(theap * heap){};
-tcelula_h * pega_min_h(theap * heap){};
-int insere_h(theap * heap, int chave, int * p_dado);
-int aumenta_chave_h(theap * heap, int i, int nova_chave);
+int min_h(theap * heap){
+    return heap->vetor[0].chave;
+}
+tcelula_h * pega_min_h(theap * heap){
+    if (heap->usado < 1){
+        return NULL;
+    } 
+    tcelula_h * minimo= &(heap->vetor[0]);
+    heap->vetor[0] = heap->vetor[heap->usado];
+    heap->usado--;
+    min_heapify(heap, 0);
+    return minimo;
+}
+int diminui_chave_h(theap * heap, int i, int nova_chave){
+    tcelula_h * V = heap->vetor;
+    if (nova_chave > V[i].chave){
+        printf("Erro\n"); // nova chave ja eh maior
+    }
+    V[i].chave = nova_chave;
+    while (i > 1 && V[pai_h(i)].chave > V[i].chave){
+        troca_h(&(V[i]), &(V[pai_h(i)]));
+        i = pai_h(i); 
+    }
+    return 1;
+}
+int insere_h(theap * heap, int chave, int * p_dado){
+    if (heap->usado > heap->tam){
+        return - 1; // heap cheia, impossivel inserir
+    }
+    heap->usado++;
+    heap->vetor[heap->usado].chave = INT_MAX;
+    heap->vetor[heap->usado].ponteiro = p_dado;
+    diminui_chave_h(heap, heap->usado, chave);
+    return 0;
+}
 
 
 
@@ -82,4 +115,5 @@ int main(){
     }
     printf("\n");
     desaloca_h(heaptest);
+    return 0;
 }
