@@ -81,7 +81,7 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
         troca_h(&(V[i]), &(V[pai_h(i)]));
         i = pai_h(i); 
     }
-    return 1;
+    return 0;
 }
 int insere_h(theap * heap, int chave, int * p_dado){
     if (heap->usado > heap->tam){
@@ -94,23 +94,22 @@ int insere_h(theap * heap, int chave, int * p_dado){
     return 0;
 }
 
-
-
-
 int main(){
-    int heap_size = 10; // in bytes
+    int heap_size = 100; // in bytes
+    int items_usados = 10;
     theap * heaptest;
-    aloca_h(&heaptest, heap_size);
-    for (int i = 0; i < heap_size; i++){
-        heaptest->vetor[i].chave = heap_size- i;
+    aloca_h(&heaptest, items_usados);
+    for (int i = 0; i < items_usados; i++){
+//        heaptest->vetor[i].chave = items_usados- i;
+        insere_h(heaptest, items_usados - i, &heap_size);
     }
-    for (int i = 0; i < heap_size; i++){
+    for (int i = 0; i < items_usados; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
-//    min_heapify(heaptest, heap_size/2);
+//    min_heapify(heaptest, items_usados/2);
     constroi_min_heap(heaptest);
-    for (int i = 0; i < heap_size; i++){
+    for (int i = 0; i < items_usados; i++){
         printf("%d ", heaptest->vetor[i].chave);
     }
     printf("\n");
