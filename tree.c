@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "mapa.h"
 #include "heuri.h"
 #include "tree.h"
@@ -41,12 +42,13 @@ void expande_no(tno * no){
     tfronteira *f;
     tmapa * m = no->m;
     f = aloca_fronteira(m);
-//    printf("%d\n", m->ncores);
+//    printf("%d cores no inicio do jogo\n", m->ncores);
     vetor_cores= (int*) malloc((m->ncores + 1) * sizeof(int));
 
     for (i = 0; i < m->ncores; i++){
         vetor_cores[i] = 0;
     }
+//    printf("Cores na fronteira: \n");
     fronteira_mapa(m, f);
     for (i = 0; i < f->tamanho; i++){
         cor = m->mapa[f->pos[i].l][f->pos[i].c];
@@ -54,21 +56,33 @@ void expande_no(tno * no){
         vetor_cores[cor-1]=1;
     }
 //    printf("\n");
+//    printf("Vetor de cores: \n");
     ncores = 0;
+    for (cor = 0; cor < m->ncores; cor++){
+//        printf("%d ", vetor_cores[cor]);
+    }
+//    printf("\n");
     for (cor = 0; cor < m->ncores; cor++){
         if (vetor_cores[cor] != 0){
             ncores++;
 //            printf("%d ", cor);
         }
     }
+//    printf("\n");
     int * opcoes = malloc(sizeof(int) * ncores);
     j = 0;
     for (cor = 0; cor < m->ncores; cor++){
         if (vetor_cores[cor] != 0){
             opcoes[j]=cor+1; 
+            j++;
         }
     }
     printf("Ncores: %d\n", ncores);
+    printf("Opcoes: ", ncores);
+    for (int j = 0; j < ncores; j++){
+        printf("%d ",opcoes[j]);
+    }
+    printf("\n");
 
     aloca_k_filhos(no, ncores);
     for (i = 0; i < ncores; i++){
@@ -106,7 +120,7 @@ int main(int argc, char **argv) {
     arvore = aloca_raiz(&m);
 
 
-    /* Busca gulosa */
+    /* Busca gulosa, aleatoria */
     int distancia = 999999;
     int i;
     int j = 0;
@@ -121,11 +135,15 @@ int main(int argc, char **argv) {
         for (i = 0; i < aux->nfilhos; i++){
             int res = heuristica_1(aux->filhos[i]->m);
             printf("f: %d\n", res);
-            if (res <= min){
+            if (res < min){
                 min = res;
                 minimo = aux->filhos[i];
-                mostra_mapa_cor(aux->filhos[i]->m);
+//                mostra_mapa_cor(aux->filhos[i]->m);
             }
+        }
+        // Nao encontramos melhor opcao, usar numero aleatorio
+        if (aux == minimo && distancia > 0){
+            minimo = aux->filhos[rand() % aux->nfilhos];
         }
         j++;
     }
