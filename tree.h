@@ -5,13 +5,14 @@
 
 // Define uma arvore para registrar o caminho percorrido
 
-typedef struct {
+typedef struct no_struct{
     tmapa * m;
-    void * pai;
+    struct no_struct * pai;
+    struct no_struct * filhos;
     int cor;
 } tno;
 
-int aloca_raiz(tno * no, tmapa * m);
+tno * aloca_raiz(tmapa * m);
 int expande_no(tno * no);
 int desaloca_raiz(tno * no);
 
