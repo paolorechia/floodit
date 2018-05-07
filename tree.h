@@ -8,13 +8,13 @@
 typedef struct no_struct{
     tmapa * m;
     struct no_struct * pai;
-    struct no_struct * filhos;
+    struct no_struct ** filhos;
     int cor;
 } tno;
 
 tno * aloca_raiz(tmapa * m);
 int expande_no(tno * no);
-int desaloca_raiz(tno * no);
+void desaloca_raiz(tno * no);
 
 
 #endif
