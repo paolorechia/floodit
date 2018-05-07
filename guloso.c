@@ -24,9 +24,9 @@ int main(int argc, char **argv) {
     unsigned long int tam_mapa =sizeof(char) * m.ncolunas * m.nlinhas;
     // aproximacao grosseira para fator medio de ramificacao
     unsigned long int fator_r= m.ncolunas;     
-    unsigned long int tam_no = sizeof(tno) + tam_mapa * fator_r;
+    unsigned long int tam_no = sizeof(tno) + tam_mapa * 4;
     unsigned long int numero_nos = 0;
-    unsigned long int restricao_memoria = 2 * gb;
+    unsigned long int restricao_memoria = 8 * gb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
     unsigned long int memoria_usada = numero_nos * tam_no;
 
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     tno * minimo = arvore;
     int min = heuristica_1(arvore->m);
     numero_nos = 1;
-    while (distancia > 0 && numero_nos < maximo_nos){
+    while (distancia > 0){
         tno * aux = minimo;
 //        mostra_mapa_cor(aux->m);
         expande_no(aux);
@@ -58,6 +58,12 @@ int main(int argc, char **argv) {
         distancia = heuristica_1(aux->m);
         printf("numero_nos: %lu/%lu\n", numero_nos, maximo_nos);
         printf("memoria_usada: %lu/%lu\n", memoria_usada, restricao_memoria);
+        if (numero_nos > maximo_nos){
+            printf("PANICK: Maximum safe memory use exceeded. Aborting\n");
+            desaloca_arvore(arvore);
+            libera_mapa2(&m);
+            return -1;
+        }
         for (i = 0; i < aux->nfilhos; i++){
             int res = heuristica_1(aux->filhos[i]->m);
 //            printf("f: %d\n", res);
