@@ -79,12 +79,13 @@ void expande_no(tno * no){
             j++;
         }
     }
-    printf("Ncores: %d\n", ncores);
-    printf("Opcoes: ", ncores);
+//    printf("Ncores: %d\n", ncores);
+//    printf("Opcoes: ", ncores);
+
     for (int j = 0; j < ncores; j++){
-        printf("%d ",opcoes[j]);
+//        printf("%d ",opcoes[j]);
     }
-    printf("\n");
+//    printf("\n");
 
     aloca_k_filhos(no, ncores);
     for (i = 0; i < ncores; i++){
@@ -100,7 +101,7 @@ void expande_no(tno * no){
 //        libera_mapa(tmp_map);
 */
     }
-    printf("\n");
+//    printf("\n");
     libera_fronteira(f);
     free(vetor_cores);
 /*
