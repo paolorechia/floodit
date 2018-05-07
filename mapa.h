@@ -43,6 +43,7 @@ void mostra_fronteira(tfronteira *);
 void copia_mapa(tmapa*, tmapa*);
 tmapa* aloca_mapa(tmapa*);
 void libera_mapa(tmapa*);
+void libera_mapa2(tmapa*);
 void gera_mapa(tmapa*, int);
 void carrega_mapa(tmapa*);
 void mostra_mapa(tmapa*);

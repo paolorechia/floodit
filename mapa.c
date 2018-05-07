@@ -159,6 +159,15 @@ void libera_mapa(tmapa *m)  {
   free(m);
 }
 
+void libera_mapa2(tmapa *m)  {
+  int i;
+  
+  for(i = 0; i < m->nlinhas; i++)
+    free(m->mapa[i]);
+  free(m->mapa);
+//  free(m);
+}
+
 void gera_mapa(tmapa *m, int semente) {
   int i, j;
 
