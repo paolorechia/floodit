@@ -121,6 +121,7 @@ int main(int argc, char **argv) {
 
 
     /* Busca gulosa, aleatoria */
+    srand(time(NULL));
     int distancia = 999999;
     int i;
     int j = 0;
