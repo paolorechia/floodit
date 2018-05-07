@@ -17,7 +17,10 @@ int main(int argc, char **argv) {
     pinta_mapa(&m, p->cor[i]);
     fronteira_mapa(&m, f);
   }    
-  if(f->tamanho)
+  if(f->tamanho){
+    printf("Solucao incorreta\n");
     return 1;
+  }
+  printf("Solucao correta\n");
   return 0;
 }

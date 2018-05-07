@@ -11,7 +11,8 @@ tno * aloca_raiz(tmapa * m){
     no = malloc(sizeof(tno));
     no->pai = NULL;
     no->filhos = NULL;
-    no->cor = 0;
+    no->cor = -1;
+    no->passos = 0;
     no->m = aloca_mapa(m);
     copia_mapa(m, no->m);
     return no;
@@ -23,6 +24,7 @@ tno * aloca_filho(tno * no_pai){
     filho->pai = no_pai;
     filho->filhos = NULL;
     filho->cor = 0;
+    filho->passos = no_pai->passos + 1;
     filho->m = aloca_mapa(no_pai->m);
     return filho;
 }
@@ -88,6 +90,7 @@ void expande_no(tno * no){
     for (i = 0; i < ncores; i++){
         copia_mapa(m, no->filhos[i]->m);
         pinta_mapa(no->filhos[i]->m, opcoes[i]);
+        no->filhos[i]->cor = opcoes[i];
 /*
         tmapa * tmp_map;
         tmp_map = aloca_mapa(m);
@@ -105,9 +108,29 @@ void expande_no(tno * no){
     return;
 }
 
-void desaloca_raiz(tno * no){
-    free(no);
+int * devolve_solucao(tno * no){
+    int tam = no->passos + 1;
+    int * tmp = malloc(sizeof(int) * tam);
+    tno * aux = no;
+    int i =0;
+    tmp[i]=aux->cor;
+    i++;
+    while(aux->pai!= NULL){
+        tmp[i]=aux->cor;
+        aux = aux->pai;
+        i++;
+    }
+    int * solucao = malloc(sizeof(int) * tam);
+    int j = 0;
+    int k = 0;
+    for (k = tam-1; k > 0; k--){
+        solucao[j]=tmp[k];
+        j++;
+    }
+//    printf("Cor:%d passos:%d\n", aux->cor, aux->passos);
+    return solucao;
 }
+
 
 void desaloca_no(tno * no){
     if (no == NULL) return;
@@ -133,55 +156,4 @@ void desaloca_arvore(tno * no){
     if (aux){
         desaloca_no(aux);
     }
-}
-
-int main(int argc, char **argv) {
-    // vars
-    tmapa m;
-    tno * arvore;
-
-
-    // mallocs
-    carrega_mapa(&m);
-    arvore = aloca_raiz(&m);
-
-
-    /* Busca gulosa, aleatoria */
-    srand(time(NULL));
-    int distancia = 999999;
-    int i;
-    int j = 0;
-    int limite = 1;
-    tno * minimo = arvore;
-    int min = heuristica_1(arvore->m);
-    while (distancia > 0){
-        tno * aux = minimo;
-        mostra_mapa_cor(aux->m);
-        expande_no(aux);
-        distancia = heuristica_1(aux->m);
-        for (i = 0; i < aux->nfilhos; i++){
-            int res = heuristica_1(aux->filhos[i]->m);
-            printf("f: %d\n", res);
-            if (res < min){
-                min = res;
-                minimo = aux->filhos[i];
-//                mostra_mapa_cor(aux->filhos[i]->m);
-            }
-        }
-        // Nao encontramos melhor opcao, usar numero aleatorio
-        if (aux == minimo && distancia > 0){
-            minimo = aux->filhos[rand() % aux->nfilhos];
-        }
-        j++;
-    }
-    printf("Usamos %d passos\n", j);
-    // Conta quantas cores falta para solucionar o floodit
-//    printf("%d\n", heuristica_1(&m));
-
-    // frees
-    desaloca_arvore(arvore);
-//    desaloca_raiz(arvore);
-    libera_mapa2(&m);
-
-    return 0;
 }

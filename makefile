@@ -1,7 +1,7 @@
 CFLAGS = -g -Wall -Wno-unused-result -O3 
 
 #all: floodit util heuristicas heap heuri tree
-all: floodit util heuristicas heap tree
+all: floodit util heuristicas guloso
 
 util: geramapa verifica anima
 
@@ -17,11 +17,13 @@ verifica: mapa.h mapa.c verifica.c
 
 anima: mapa.h mapa.c anima.c
 
-heap: heap.h heap.c
+#heap: heap.h heap.c
 
-heuri: mapa.h mapa.c heuri.h heuri.c
+#heuri: mapa.h mapa.c heuri.h heuri.c
 
-tree: mapa.h mapa.c heuri.h heuri.c tree.h tree.c
+#tree: mapa.h mapa.c heuri.h heuri.c tree.h tree.c
+
+guloso: mapa.h mapa.c heuri.h heuri.c tree.h tree.c guloso.c
 
 clean:
 	rm -f floodit geramapa verifica anima *.o
