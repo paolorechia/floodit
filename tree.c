@@ -102,11 +102,37 @@ void expande_no(tno * no){
     free(vetor_cores);
 /*
 */
-    return 0;
+    return;
 }
 
 void desaloca_raiz(tno * no){
     free(no);
+}
+
+void desaloca_no(tno * no){
+    if (no == NULL) return;
+    if (no->filhos != NULL){
+        for (int i = 0; i < no->nfilhos; i++){
+            free(no->filhos[i]);
+        }
+//        free(no->filhos);
+//        no->filhos = NULL;
+    }
+    libera_mapa(no->m);
+    free(no);
+}
+
+void desaloca_arvore(tno * no){
+    tno * aux = NULL;
+    for (int i = 0; i < no->nfilhos; i++){
+        aux = no->filhos[i];
+        if (aux != NULL){
+            desaloca_arvore(aux);
+        }
+    }
+    if (aux){
+        desaloca_no(aux);
+    }
 }
 
 int main(int argc, char **argv) {
@@ -153,9 +179,9 @@ int main(int argc, char **argv) {
 //    printf("%d\n", heuristica_1(&m));
 
     // frees
-    desaloca_raiz(arvore);
+    desaloca_arvore(arvore);
+//    desaloca_raiz(arvore);
     libera_mapa2(&m);
-
 
     return 0;
 }
