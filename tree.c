@@ -28,12 +28,13 @@ tno * aloca_filho(tno * no_pai){
 
 void aloca_k_filhos(tno * no_atual, int k){
     no_atual->filhos = malloc(sizeof(tno *) * k);
+    no_atual->nfilhos = k;
     for (int i = 0; i < k; i++){
         no_atual->filhos[i] = aloca_filho(no_atual);
     }
 }
 
-int expande_no(tno * no){
+void expande_no(tno * no){
     int * vetor_cores;
     int i, j, cor, ncores;
 
@@ -73,7 +74,6 @@ int expande_no(tno * no){
     for (i = 0; i < ncores; i++){
         copia_mapa(m, no->filhos[i]->m);
         pinta_mapa(no->filhos[i]->m, opcoes[i]);
-        printf("f: %d\n", heuristica_1(no->filhos[i]->m));
 /*
         tmapa * tmp_map;
         tmp_map = aloca_mapa(m);
@@ -105,7 +105,31 @@ int main(int argc, char **argv) {
     carrega_mapa(&m);
     arvore = aloca_raiz(&m);
 
-    expande_no(arvore);
+
+    /* Busca gulosa */
+    int distancia = 999999;
+    int i;
+    int j = 0;
+    int limite = 1;
+    tno * minimo = arvore;
+    int min = heuristica_1(arvore->m);
+    while (distancia > 0){
+        tno * aux = minimo;
+        mostra_mapa_cor(aux->m);
+        expande_no(aux);
+        distancia = heuristica_1(aux->m);
+        for (i = 0; i < aux->nfilhos; i++){
+            int res = heuristica_1(aux->filhos[i]->m);
+            printf("f: %d\n", res);
+            if (res <= min){
+                min = res;
+                minimo = aux->filhos[i];
+                mostra_mapa_cor(aux->filhos[i]->m);
+            }
+        }
+        j++;
+    }
+    printf("Usamos %d passos\n", j);
     // Conta quantas cores falta para solucionar o floodit
 //    printf("%d\n", heuristica_1(&m));
 
