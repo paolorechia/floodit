@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
 
     // frees
     free(solucao);
-    desaloca_arvore(arvore);
+//    desaloca_arvore(arvore);
     libera_mapa2(&m);
     return 0;
 }

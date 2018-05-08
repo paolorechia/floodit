@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     unsigned long int fator_r= m.ncolunas;     
     unsigned long int tam_no = sizeof(tno) + tam_mapa * 4;
     unsigned long int numero_nos = 0;
-    unsigned long int restricao_memoria = 8 * gb;
+    unsigned long int restricao_memoria = 1 * gb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
     unsigned long int memoria_usada = numero_nos * tam_no;
 
