@@ -26,6 +26,20 @@ int heuristica_1(tmapa * m){
     return qtde_cores - 1;
 }
 
+// Conta quantas celulas falta para solucionar o floodit
+int heuristica_2(tmapa * m){
+    int count = 0;
+    int cor_atual = m->mapa[0][0];
+    for (int i =0; i < m->nlinhas;i++){
+        for (int j = 0; j < m->ncolunas;j++){
+            if (m->mapa[i][j] != cor_atual){
+                count++; 
+            }
+        }
+    } 
+    printf("%d\n", count);
+    return count;
+}
 
 /*
 int main(int argc, char **argv) {

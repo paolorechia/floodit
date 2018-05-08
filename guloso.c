@@ -40,6 +40,10 @@ int main(int argc, char **argv) {
     printf("memoria_usada: %lu\n", memoria_usada);
     printf("maximo_nos: %lu\n", maximo_nos);
     
+
+    // h eh ponteiro de funcao
+    int (*h)(tmapa *m);
+    h = &heuristica_2;
     /* Busca gulosa, aleatoria */
     srand(time(NULL));
     int distancia = 999999;
@@ -47,7 +51,7 @@ int main(int argc, char **argv) {
     int j = 0;
     int limite = 1;
     tno * minimo = arvore;
-    int min = heuristica_1(arvore->m);
+    int min = (*h)(arvore->m);
     numero_nos = 1;
     while (distancia > 0){
         tno * aux = minimo;
@@ -55,7 +59,7 @@ int main(int argc, char **argv) {
         expande_no(aux);
         numero_nos += aux->nfilhos;
         memoria_usada = numero_nos * tam_no;
-        distancia = heuristica_1(aux->m);
+        distancia = (*h)(aux->m);
         printf("numero_nos: %lu/%lu\n", numero_nos, maximo_nos);
         printf("memoria_usada: %lu/%lu\n", memoria_usada, restricao_memoria);
         if (numero_nos > maximo_nos){
@@ -65,7 +69,7 @@ int main(int argc, char **argv) {
             return -1;
         }
         for (i = 0; i < aux->nfilhos; i++){
-            int res = heuristica_1(aux->filhos[i]->m);
+            int res = (*h)(aux->filhos[i]->m);
 //            printf("f: %d\n", res);
             if (res < min){
                 min = res;

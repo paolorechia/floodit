@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     unsigned long int fator_r= m.ncolunas;     
     unsigned long int tam_no = sizeof(tno) + tam_mapa * 4;
     unsigned long int numero_nos = 0;
-    unsigned long int restricao_memoria = 1 * gb;
+    unsigned long int restricao_memoria = 2 * gb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
     unsigned long int memoria_usada = numero_nos * tam_no;
 
@@ -48,7 +48,11 @@ int main(int argc, char **argv) {
     int j = 0;
     int limite = 1;
     tno * minimo = arvore;
-    int min = heuristica_1(arvore->m);
+
+    // h eh ponteiro de funcao
+    int (*h)(tmapa *m);
+    h = &heuristica_2;
+    int min = (*h)(arvore->m);
     numero_nos = 1;
     
     theap * heap;
@@ -56,7 +60,7 @@ int main(int argc, char **argv) {
 
     tno * aux = minimo;
 
-    int f = heuristica_1(minimo->m);
+    int f = (*h)(minimo->m);
     while (f != 0){
         expande_no(minimo);
         /* Teste memoria */
@@ -72,13 +76,13 @@ int main(int argc, char **argv) {
         }
         for (i = 0; i < minimo->nfilhos; i++){
             aux = minimo->filhos[i];
-            f = heuristica_1(aux->m);
+            f = (*h)(aux->m);
             distancia = aux->passos + f;
             insere_h(heap, distancia, aux);
         }
         tcelula_h * teste = pega_min_h(heap); 
         minimo = teste->ponteiro;            
-        f = heuristica_1(minimo->m);
+        f = (*h)(minimo->m);
     }
     printf("%d\n", minimo->passos);
     int * solucao = devolve_solucao(minimo);
