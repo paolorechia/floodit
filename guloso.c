@@ -6,6 +6,20 @@
 #include "tree.h"
 
 int main(int argc, char **argv) {
+    int numero_heuristica = -1;
+    int (*h)(tmapa *m);
+    if (argc < 2){
+        printf("Uso: ./%s [numero_heuristica]", argv[0]);
+    }
+    else{
+        numero_heuristica = atoi(argv[1]);
+        // h eh ponteiro de funcao
+    }
+    h = escolhe_heuristica(numero_heuristica);
+    if (h == - 1){
+        printf("Heuristica invalida\n");
+        return -1;
+    }
     // vars
     tmapa m;
     tno * arvore;
@@ -14,8 +28,6 @@ int main(int argc, char **argv) {
     // mallocs
     carrega_mapa(&m);
     arvore = aloca_raiz(&m);
-
-
 
     unsigned long int kb = 1024;
     unsigned long int mb = 1024 * kb;
@@ -41,9 +53,6 @@ int main(int argc, char **argv) {
     printf("maximo_nos: %lu\n", maximo_nos);
     
 
-    // h eh ponteiro de funcao
-    int (*h)(tmapa *m);
-    h = &heuristica_2;
     /* Busca gulosa, aleatoria */
     srand(time(NULL));
     int distancia = 999999;

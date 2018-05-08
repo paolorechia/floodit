@@ -3,6 +3,8 @@
 #include "mapa.h"
 #include "heuri.h"
 
+typedef int (*function_type)(tmapa *m);
+
 // Conta quantas cores falta para solucionar o floodit
 int heuristica_1(tmapa * m){
     int tam_vetor = m->ncores + 1;
@@ -41,6 +43,22 @@ int heuristica_2(tmapa * m){
     return count;
 }
 
+// Retorna ponteiro para funcao de heuristica
+function_type escolhe_heuristica(int numero){
+    function_type h;
+    switch(numero){
+        case 1:
+            h = &heuristica_1;
+        break;
+        case 2:
+            h = &heuristica_2;
+        break;
+        default:
+            return -1;
+    }
+    return h;
+}
+int (*h)(tmapa *m);
 /*
 int main(int argc, char **argv) {
   tmapa m;
@@ -50,4 +68,5 @@ int main(int argc, char **argv) {
   return 0;
 }
 */
+
   

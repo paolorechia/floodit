@@ -7,6 +7,20 @@
 #include "heap.h"
 
 int main(int argc, char **argv) {
+    int numero_heuristica = -1;
+    int (*h)(tmapa *m);
+    if (argc < 2){
+        printf("Uso: %s [numero_heuristica] < instancia_redirecionada.txt\n", argv[0]);
+    }
+    else{
+        numero_heuristica = atoi(argv[1]);
+        // h eh ponteiro de funcao
+    }
+    h = escolhe_heuristica(numero_heuristica);
+    if (h == - 1){
+        printf("Heuristica invalida\n");
+        return -1;
+    }
     // vars
     tmapa m;
     tno * arvore;
@@ -50,9 +64,6 @@ int main(int argc, char **argv) {
     tno * minimo = arvore;
 
     // h eh ponteiro de funcao
-    int (*h)(tmapa *m);
-    h = &heuristica_2;
-    int min = (*h)(arvore->m);
     numero_nos = 1;
     
     theap * heap;
