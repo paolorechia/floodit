@@ -1,9 +1,10 @@
+#include "tree.h"
 #ifndef __HEAP_H__
 #define __HEAP_H__ 
 
 typedef struct{
     int chave;
-    void * ponteiro;
+    tno * ponteiro;
 } tcelula_h;
 
 typedef struct{
@@ -25,6 +26,6 @@ int constroi_min_heap(theap * heap);
 /* Funcoes para implementar a fila de prioridade */
 int min_h(theap * heap);
 tcelula_h * pega_min_h(theap * heap);
-int insere_h(theap * heap, int chave, int * p_dado);
+int insere_h(theap * heap, int chave, tno* p_dado);
 int aumenta_chave_h(theap * heap, int i, int nova_chave);
 #endif
