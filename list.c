@@ -1,36 +1,43 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 /*************************************************/
 /* Estrutura de dados auxiliar - lista encadeada */
 /*************************************************/
 
 //Funçao que inicializa a lista usada para achar a diferença e a interseccao.
-static thead * l_init(){
+ thead * l_init(){
     thead * head = malloc(sizeof(thead));
     head->node = malloc(sizeof(tnode));
     head->node->nxt = NULL;
     head->size = 0;
-    strcpy(head->node->key,"#HEAD#");
+    head->key = NULL;
     return head;
 }
 
 //Funçao usada para inserir os chars (vizinhança) na lista daquele vertice.
-static void l_insert(thead * head, char * new){
+ void l_insert(thead * head, tpos * new){
     tnode * node = head->node;
     while (node->nxt != NULL){
         node = node -> nxt;
     }
     node->nxt=malloc(sizeof(tnode));
-    strcpy(node->nxt->key,new);
+    (node->nxt->key,new);
+    node->nxt->key = malloc(sizeof(tpos));
+    node->nxt->key->c = new->c
+    node->nxt->key->l = new->l
+    node->nxt->key->v = new->v
     node->nxt->nxt=NULL;
     head->size += 1;
     return;
 }
 
+// pop FIFO
+// Implementar
+tpos * l_pop_first(thead * head){
+    tpos * aux;
+    tnode * node = head->node->nxt;
+    return 
+}
 //Funçao auxiliar para ajudar a debugar o programa.
-static void l_print(thead * head){
+ void l_print(thead * head){
     printf("--------->"); 
     if (head->node->nxt == NULL){
         printf("Empty l\n");
@@ -38,29 +45,30 @@ static void l_print(thead * head){
     }
     tnode * node = head->node->nxt;
     while (node){
-        printf("%s ", node->key);
+        printf("(%d,%d):%d ", f->pos[i].l, f->pos[i].c, f->pos[i].v);
         node = node->nxt;
     }
     putchar('\n');
 }
 
-static int l_size(thead * head){
+ int l_size(thead * head){
     return head->size;
 }
 
 /* Funcao recursiva para limpar lista a partir do ultimo no*/
-static int rec_clear(tnode * node){
+ int rec_clear(tnode * node){
     if (node->nxt != NULL){
         rec_clear(node->nxt);
     }
 //    printf("Freeing node of name: %s\n", node->key);
     node->nxt = NULL;
+    free(node->key);
     free(node);
     return 0;
 }
 
 //Funçao para limpar a lista.
-static int l_clear(thead * head){
+ int l_clear(thead * head){
     tnode * node = head->node;
     if (head->node->nxt == NULL){
         return 0;
@@ -72,79 +80,14 @@ static int l_clear(thead * head){
 }
 
 // Desaloca memoria
-static void l_free(thead *head){
+ void l_free(thead *head){
     l_clear(head);
     free(head->node);
     free(head);
 }
-// Busca sequencial de elemento na lista
-static int l_search(thead* head, char * buscado){
-    // if empty list
-    if (head->node->nxt == NULL){
-        return 0;
-    }
-    tnode * node = head->node->nxt;
-    while (node){
-        if (!strcmp(node->key, buscado)) return 1;
-        node = node->nxt;
-    }   
-    return 0;
-}
-//Funcao que verifica a interseccao entre os dois vertives.
-static thead * l_intersection(thead *l1, thead * l2){
-    thead * inter_l = l_init();
-    // if either list is empty, intersection is empty
-    if (l1->node->nxt == NULL || l2->node->nxt == NULL){
-        return inter_l;
-    } 
-    // fetch first element
-    tnode * node = l1->node->nxt;
-    while (node){
-        if (l_search(l2, node->key)){
-            l_insert(inter_l, node->key);
-        }
-        node = node->nxt;
-    }
-    return inter_l;
-}
-
-// cria uma copia da lista
-static thead * l_copy(thead *list)
-{
-    // No auxiliar
-    thead* new_list = l_init();
-    tnode * lnode = list->node->nxt;
-    while (lnode)
-    {
-        l_insert(new_list, lnode->key); // Insere chave na lista nova
-        lnode = lnode->nxt;         // Proximo elemento da lista
-    }
-    return new_list; //Return de head of the copy.
-}
-
 // Filtra l1 com os elementos da lista2
 // (Retorna elementos de l1 nao encontrados em l2)
 // Utilizado para calcular a diferenca de conjunto
-static thead * l_filter(thead *l1, thead *l2){
-    // se l1 eh vazia, resultado eh uma lista vazia (l1)
-    if (l1->node->nxt == NULL){
-        return l1;
-    }
-    // se l2 eh vazia, nenhum filtro precisa ser aplicado, retorna l1
-    // cria uma copia para evitar double free
-    if (l2->node->nxt == NULL){
-        return l_copy(l1);
-    }
-    thead * filtered = l_init();
-    tnode * node = l1->node->nxt;
-    while (node){
-        if (!l_search(l2, node->key)){
-            l_insert(filtered, node->key);
-        }
-        node = node->nxt;
-    }
-    return filtered;
-}
 /*************************************************/
 /* Fim da estrutura de dados lista encadeada     */
 /*************************************************/

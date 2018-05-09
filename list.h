@@ -4,12 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mapa.h>
 
 /*************************************************/
 /* Estrutura de dados auxiliar - lista encadeada */
 /*************************************************/
 typedef struct cel_struct{
-    char key[48];
+    tpos pos;
     struct cel_struct * nxt;
 } tnode;
 
@@ -19,8 +20,8 @@ typedef struct head{
 } thead;
 static thead * l_init(){
 
-//Funçao usada para inserir os chars (vizinhança) na lista daquele vertice.
-static void l_insert(thead * head, char * new);
+//Funçao usada para inserir os tposs (vizinhança) na lista daquele vertice.
+static void l_insert(thead * head, tpos * new);
 //Funçao auxiliar para ajudar a debugar o programa.
 static void l_print(thead * head);
 static int l_size(thead * head);
@@ -31,7 +32,7 @@ static int l_clear(thead * head);
 // Desaloca memoria
 static void l_free(thead *head);
 // Busca sequencial de elemento na lista
-static int l_search(thead* head, char * buscado);
+static int l_search(thead* head, tpos * buscado);
 //Funcao que verifica a interseccao entre os dois vertives.
 static thead * l_intersection(thead *l1, thead * l2);
 // cria uma copia da lista
