@@ -1,6 +1,6 @@
-#include "tree.h"
 #ifndef __HEAP_H__
 #define __HEAP_H__ 
+#include "tree.h"
 
 typedef struct{
     int chave;
