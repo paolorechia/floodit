@@ -81,7 +81,6 @@ int main(int argc, char **argv) {
         if (numero_nos > maximo_nos){
             printf("PANICK: Maximum safe memory use exceeded. Aborting\n");
             desaloca_arvore(arvore);
-            libera_mapa2(&m);
             return -1;
         }
         for (i = 0; i < minimo->nfilhos; i++){
@@ -105,7 +104,6 @@ int main(int argc, char **argv) {
     free(solucao);
     desaloca_h(heap);
 //    desaloca_arvore(arvore);
-    libera_mapa2(&m);
 
     return 0;
 }

@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
         if (numero_nos > maximo_nos){
             printf("PANICK: Maximum safe memory use exceeded. Aborting\n");
             desaloca_arvore(arvore);
-            libera_mapa2(&m);
+            libera_mapa(&m);
             return -1;
         }
         for (i = 0; i < aux->nfilhos; i++){
@@ -104,6 +104,6 @@ int main(int argc, char **argv) {
     // frees
     free(solucao);
 //    desaloca_arvore(arvore);
-    libera_mapa2(&m);
+//    libera_mapa(&m);
     return 0;
 }
