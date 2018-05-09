@@ -147,6 +147,7 @@ static void explora_fronteira_fila(tmapa * tmp, int* saltos){
         free(pos_atual);
         libera_fronteira(f2);
     }
+    l_free(fila);
     return;
 }
 int heuristica_3(tmapa * m){
@@ -188,6 +189,9 @@ tipo_funcao escolhe_heuristica(int numero){
         break;
         case 3:
             h = &heuristica_3;
+        break;
+        case 4:
+            h = &heuristica_4;
         break;
         default:
             return NULL;
