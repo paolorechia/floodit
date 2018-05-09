@@ -38,28 +38,33 @@ void aloca_k_filhos(tno * no_atual, int k){
 }
 
 void expande_no(tno * no){
-    int * vetor_cores;
-    int i, j, cor, ncores;
 
+    tmapa *m =  no->m;
+    int * vetor_cores = malloc(sizeof(int) * no->m->ncores);
+    obtem_cores(no->m, &vetor_cores);
+    int ncores = 0;
+    int i, j, cor;
+    j = 0;
+    for (cor = 0; cor < m->ncores; cor++){
+        if (vetor_cores[cor] != 0){
+            ncores++;
+        }
+    }
+    int * opcoes = malloc(sizeof(int) * ncores);
+    for (cor = 0; cor < m->ncores; cor++){
+        if (vetor_cores[cor] != 0){
+            opcoes[j]=cor+1; 
+            j++;
+        }
+    }
     aloca_k_filhos(no, ncores);
     for (i = 0; i < ncores; i++){
         copia_mapa(m, no->filhos[i]->m);
         pinta_mapa(no->filhos[i]->m, opcoes[i]);
         no->filhos[i]->cor = opcoes[i];
-/*
-        tmapa * tmp_map;
-        tmp_map = aloca_mapa(m);
-        copia_mapa(m, tmp_map);
-        pinta_mapa(tmp_map, opcoes[i]);
-        printf("f: %d\n", heuristica_1(tmp_map));
-//        libera_mapa(tmp_map);
-*/
     }
-//    printf("\n");
-    libera_fronteira(f);
     free(vetor_cores);
-/*
-*/
+    free(opcoes);
     return;
 }
 
