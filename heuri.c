@@ -3,7 +3,6 @@
 #include "mapa.h"
 #include "heuri.h"
 
-typedef int (*function_type)(tmapa *m);
 
 // Conta quantas cores falta para solucionar o floodit
 int heuristica_1(tmapa * m){
@@ -43,9 +42,66 @@ int heuristica_2(tmapa * m){
     return count;
 }
 
+static void fronteira2(tmapa *m, int l, int c, int fundo, tfronteira *f) {
+  if(m->mapa[l][c] == fundo) {
+    m->mapa[l][c] *= -1;
+    if(l < m->nlinhas - 1)
+      fronteira2(m, l+1, c, fundo, f);
+    if(c < m->ncolunas - 1)
+      fronteira2(m, l, c+1, fundo, f);
+    if(l > 0)
+      fronteira2(m, l-1, c, fundo, f);
+    if(c > 0)
+      fronteira2(m, l, c-1, fundo, f);
+  }
+  else if(m->mapa[l][c] != -fundo) {
+    insere_fronteira(f, l, c, m->mapa[l][c]);
+  }
+}
+
+// Funcao auxiliar
+// Explora todas as fronteiras recursivamente
+// Essa versao nao eh muito util
+// Reimplementar com recursao em FILA ao inves de PILHA,
+// associando arestas a vertices de um grafo (em que cada
+// vertice eh um componente do floodit)
+static void explora_fronteira(tfronteira * f, tmapa * tmp, int x, int y, int* saltos){
+    if (f->tamanho == 0) return;
+//    mostra_fronteira(f);
+    for (int k = 0; k < f->tamanho; k++){
+        tfronteira * f2 = aloca_fronteira(tmp);
+        int x2, y2;
+        x2 = f->pos[k].l;
+        y2 = f->pos[k].c;
+        int valor_celula = tmp->mapa[x2][y2];
+        if (valor_celula > 0){
+            // Na versao em Fila, nessa etapa seria criada a marcacao de vizinho
+            // cria link (x,y) -> (x2,y2)
+            (*saltos)++;
+//            printf("%d\n", (*saltos));
+            fronteira2(tmp, x2, y2, tmp->mapa[x2][y2], f2);
+            explora_fronteira(f2, tmp, x2, y2, saltos);
+        }
+    }
+}
+
+int heuristica_3(tmapa * m){
+    tmapa * tmp = aloca_mapa(m);
+    copia_mapa(m, tmp);
+
+    int vetor[1000];
+    int numero_componentes = 0;
+    int saltos = 0;
+    tfronteira * f = aloca_fronteira(tmp);
+    fronteira2(tmp, 0, 0, tmp->mapa[0][0], f);
+    explora_fronteira(f, tmp, 0, 0, &saltos);
+    libera_fronteira(f);
+    return saltos;
+}
+
 // Retorna ponteiro para funcao de heuristica
-function_type escolhe_heuristica(int numero){
-    function_type h;
+tipo_funcao escolhe_heuristica(int numero){
+    tipo_funcao h;
     switch(numero){
         case 1:
             h = &heuristica_1;
@@ -53,12 +109,15 @@ function_type escolhe_heuristica(int numero){
         case 2:
             h = &heuristica_2;
         break;
+        case 3:
+            h = &heuristica_3;
+        break;
         default:
-            return -1;
+            return NULL;
     }
     return h;
 }
-int (*h)(tmapa *m);
+
 /*
 int main(int argc, char **argv) {
   tmapa m;

@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
         // h eh ponteiro de funcao
     }
     h = escolhe_heuristica(numero_heuristica);
-    if (h == - 1){
+    if (h == NULL){
         printf("Heuristica invalida\n");
         return -1;
     }
@@ -58,7 +58,6 @@ int main(int argc, char **argv) {
     int distancia = 999999;
     int i;
     int j = 0;
-    int limite = 1;
     tno * minimo = arvore;
     int min = (*h)(arvore->m);
     numero_nos = 1;

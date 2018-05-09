@@ -17,14 +17,13 @@ int main(int argc, char **argv) {
         // h eh ponteiro de funcao
     }
     h = escolhe_heuristica(numero_heuristica);
-    if (h == - 1){
+    if (h == NULL){
         printf("Heuristica invalida\n");
         return -1;
     }
     // vars
     tmapa m;
     tno * arvore;
-
 
     // mallocs
     carrega_mapa(&m);
