@@ -25,6 +25,8 @@ anima: mapa.h mapa.c anima.c
 
 guloso: mapa.h mapa.c heuri.h heuri.c tree.h tree.c guloso.c
 
+guloso2: mapa.h mapa.c heuri.h heuri.c guloso2.c
+
 aestrela: mapa.h mapa.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela.c
 
 clean:

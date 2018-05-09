@@ -3,6 +3,58 @@
 #include "mapa.h"
 #include "heuri.h"
 
+// funcao auxiliar
+void obtem_opcoes(tmapa * m, int ** vet_cor){
+    tfronteira *f;
+//    printf("%d cores no inicio do jogo\n", m->ncores);
+    int i, j, ncores, cor;
+    int * vetor_cores = (*vet_cor);
+
+    f = aloca_fronteira(m);
+
+    for (i = 0; i < m->ncores; i++){
+        vetor_cores[i] = 0;
+    }
+//    printf("Cores na fronteira: \n");
+    fronteira_mapa(m, f);
+    for (i = 0; i < f->tamanho; i++){
+        cor = m->mapa[f->pos[i].l][f->pos[i].c];
+//        printf(" %d ", cor);
+        vetor_cores[cor-1]=1;
+    }
+//    printf("\n");
+//    printf("Vetor de cores: \n");
+    ncores = 0;
+    for (cor = 0; cor < m->ncores; cor++){
+//        printf("%d ", vetor_cores[cor]);
+    }
+//    printf("\n");
+    for (cor = 0; cor < m->ncores; cor++){
+        if (vetor_cores[cor] != 0){
+            ncores++;
+//            printf("%d ", cor);
+        }
+    }
+//    printf("\n");
+    int * opcoes = malloc(sizeof(int) * ncores);
+    j = 0;
+    for (cor = 0; cor < m->ncores; cor++){
+        if (vetor_cores[cor] != 0){
+            opcoes[j]=cor+1; 
+            j++;
+        }
+    }
+//    printf("Ncores: %d\n", ncores);
+//    printf("Opcoes: ", ncores);
+
+    for (int j = 0; j < ncores; j++){
+//        printf("%d ",opcoes[j]);
+    }
+//    printf("\n");
+
+
+
+}
 
 // Conta quantas cores falta para solucionar o floodit
 int heuristica_1(tmapa * m){

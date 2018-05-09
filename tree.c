@@ -41,52 +41,6 @@ void expande_no(tno * no){
     int * vetor_cores;
     int i, j, cor, ncores;
 
-    tfronteira *f;
-    tmapa * m = no->m;
-    f = aloca_fronteira(m);
-//    printf("%d cores no inicio do jogo\n", m->ncores);
-    vetor_cores= (int*) malloc((m->ncores + 1) * sizeof(int));
-
-    for (i = 0; i < m->ncores; i++){
-        vetor_cores[i] = 0;
-    }
-//    printf("Cores na fronteira: \n");
-    fronteira_mapa(m, f);
-    for (i = 0; i < f->tamanho; i++){
-        cor = m->mapa[f->pos[i].l][f->pos[i].c];
-//        printf(" %d ", cor);
-        vetor_cores[cor-1]=1;
-    }
-//    printf("\n");
-//    printf("Vetor de cores: \n");
-    ncores = 0;
-    for (cor = 0; cor < m->ncores; cor++){
-//        printf("%d ", vetor_cores[cor]);
-    }
-//    printf("\n");
-    for (cor = 0; cor < m->ncores; cor++){
-        if (vetor_cores[cor] != 0){
-            ncores++;
-//            printf("%d ", cor);
-        }
-    }
-//    printf("\n");
-    int * opcoes = malloc(sizeof(int) * ncores);
-    j = 0;
-    for (cor = 0; cor < m->ncores; cor++){
-        if (vetor_cores[cor] != 0){
-            opcoes[j]=cor+1; 
-            j++;
-        }
-    }
-//    printf("Ncores: %d\n", ncores);
-//    printf("Opcoes: ", ncores);
-
-    for (int j = 0; j < ncores; j++){
-//        printf("%d ",opcoes[j]);
-    }
-//    printf("\n");
-
     aloca_k_filhos(no, ncores);
     for (i = 0; i < ncores; i++){
         copia_mapa(m, no->filhos[i]->m);

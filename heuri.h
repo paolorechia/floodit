@@ -4,6 +4,7 @@
 
 #include "mapa.h"
 
+void obtem_opcoes(tmapa *m, int ** vet_cor);
 typedef int (*tipo_funcao)(tmapa *m);
 tipo_funcao escolhe_heuristica(int numero);
 int heuristica_1(tmapa * m);
