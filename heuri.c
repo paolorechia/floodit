@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "mapa.h"
 #include "heuri.h"
+#include "list.h"
 
 // funcao auxiliar
 void obtem_cores(tmapa * m, int ** vet_cor){
@@ -79,10 +80,6 @@ static void fronteira2(tmapa *m, int l, int c, int fundo, tfronteira *f) {
 
 // Funcao auxiliar
 // Explora todas as fronteiras recursivamente
-// Essa versao nao eh muito util
-// Reimplementar com recursao em FILA ao inves de PILHA,
-// associando arestas a vertices de um grafo (em que cada
-// vertice eh um componente do floodit)
 static void explora_fronteira(tfronteira * f, tmapa * tmp, int x, int y, int* saltos){
     if (f->tamanho == 0) return;
 //    mostra_fronteira(f);
@@ -103,6 +100,55 @@ static void explora_fronteira(tfronteira * f, tmapa * tmp, int x, int y, int* sa
     }
 }
 
+// Versao iterativa com fila, mais eficiente do ponto de vista da memoria
+// associando arestas a vertices de um grafo (em que cada
+// vertice eh um componente do floodit)
+static void explora_fronteira_fila(tmapa * tmp, int* saltos){
+    thead * fila = l_init();
+    tpos * pos_atual = (tpos *) malloc(sizeof(tpos));
+    pos_atual->l=0;
+    pos_atual->c=0;
+    pos_atual->v=tmp->mapa[0][0];
+    int x = 0;
+    int y = 0;
+    l_insert(fila, pos_atual);
+    int k = 0;
+//    printf("Inicio loop\n");
+    while(fila->size > 0){ //&& k < 100){
+//        l_print(fila);
+//        mostra_mapa(tmp);
+        k++;
+//        printf("Antes %d\n", fila->size);
+        pos_atual= l_pop_first(fila);
+        while(pos_atual != NULL && pos_atual->v < 0){
+            free(pos_atual);
+            pos_atual= l_pop_first(fila);
+        }
+//        printf("Depois %d\n", fila->size);
+        tfronteira * f2 = aloca_fronteira(tmp);
+        x = pos_atual->l;
+        y = pos_atual->c;
+  //      printf("x: %d y: %d\n", x, y);
+        fronteira2(tmp, x, y, pos_atual->v, f2);
+        for (int k = 0; k < f2->tamanho; k++){
+            x = f2->pos[k].l;
+            y = f2->pos[k].c;
+            int valor_celula = tmp->mapa[x][y];
+            if (valor_celula > 0){
+                // Nessa etapa podemos criar um grafo
+                // cria link (x,y) -> (x2,y2)
+                (*saltos)++;
+                tpos * nova_pos = (tpos *) malloc(sizeof(tpos));
+                nova_pos->l = f2->pos[k].l; nova_pos->c = f2->pos[k].c;
+                nova_pos->v = f2->pos[k].v;
+                l_insert(fila, nova_pos);
+            }
+        }
+        free(pos_atual);
+        libera_fronteira(f2);
+    }
+    return;
+}
 int heuristica_3(tmapa * m){
     tmapa * tmp = aloca_mapa(m);
     copia_mapa(m, tmp);
@@ -114,6 +160,19 @@ int heuristica_3(tmapa * m){
     fronteira2(tmp, 0, 0, tmp->mapa[0][0], f);
     explora_fronteira(f, tmp, 0, 0, &saltos);
     libera_fronteira(f);
+    libera_mapa(tmp);
+    return saltos;
+}
+
+int heuristica_4(tmapa * m){
+    tmapa * tmp = aloca_mapa(m);
+    copia_mapa(m, tmp);
+
+    int vetor[1000];
+    int numero_componentes = 0;
+    int saltos = 0;
+    explora_fronteira_fila(tmp, &saltos);
+    libera_mapa(tmp);
     return saltos;
 }
 

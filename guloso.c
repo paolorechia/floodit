@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
     int numero_heuristica = -1;
     int (*h)(tmapa *m);
     if (argc < 2){
-        printf("Uso: ./%s [numero_heuristica]", argv[0]);
+        printf("Uso: ./%s [numero_heuristica]\n", argv[0]);
     }
     else{
         numero_heuristica = atoi(argv[1]);

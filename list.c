@@ -1,3 +1,4 @@
+#include "list.h"
 /*************************************************/
 /* Estrutura de dados auxiliar - lista encadeada */
 /*************************************************/
@@ -8,9 +9,10 @@
     head->node = malloc(sizeof(tnode));
     head->node->nxt = NULL;
     head->size = 0;
-    head->key = NULL;
+    head->node->key = NULL;
     return head;
 }
+
 
 //Funçao usada para inserir os chars (vizinhança) na lista daquele vertice.
  void l_insert(thead * head, tpos * new){
@@ -21,9 +23,9 @@
     node->nxt=malloc(sizeof(tnode));
     (node->nxt->key,new);
     node->nxt->key = malloc(sizeof(tpos));
-    node->nxt->key->c = new->c
-    node->nxt->key->l = new->l
-    node->nxt->key->v = new->v
+    node->nxt->key->c = new->c;
+    node->nxt->key->l = new->l;
+    node->nxt->key->v = new->v;
     node->nxt->nxt=NULL;
     head->size += 1;
     return;
@@ -33,8 +35,16 @@
 // Implementar
 tpos * l_pop_first(thead * head){
     tpos * aux;
+    aux = malloc(sizeof(tpos));
     tnode * node = head->node->nxt;
-    return 
+    aux->l = node->key->l;
+    aux->c = node->key->c;
+    aux->v = node->key->v;
+    head->node->nxt = node->nxt;
+    head->size--;
+    free(node->key);
+    free(node);
+    return aux;
 }
 //Funçao auxiliar para ajudar a debugar o programa.
  void l_print(thead * head){
@@ -45,7 +55,9 @@ tpos * l_pop_first(thead * head){
     }
     tnode * node = head->node->nxt;
     while (node){
-        printf("(%d,%d):%d ", f->pos[i].l, f->pos[i].c, f->pos[i].v);
+        printf("(%d,%d):%d ", node->key->l,
+                              node->key->c,
+                              node->key->v);
         node = node->nxt;
     }
     putchar('\n');
