@@ -91,6 +91,7 @@ int main(int argc, char **argv) {
         }
         tcelula_h * teste = pega_min_h(heap); 
         minimo = teste->ponteiro;            
+        free(teste);
         f = (*h)(minimo->m);
     }
     printf("%d\n", minimo->passos);
@@ -103,7 +104,7 @@ int main(int argc, char **argv) {
     // frees
     free(solucao);
     desaloca_h(heap);
-//    desaloca_arvore(arvore);
+    desaloca_arvore(arvore);
 
     return 0;
 }

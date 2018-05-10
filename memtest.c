@@ -41,6 +41,9 @@ int main(int argc, char **argv) {
 
     arvore = aloca_raiz(m);
     expande_no(arvore);
+    for (int i = 0; i < arvore->nfilhos; i++){
+        expande_no(arvore->filhos[i]);
+    }
 
 
     desaloca_arvore2(arvore);

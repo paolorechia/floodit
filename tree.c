@@ -13,6 +13,7 @@ tno * aloca_raiz(tmapa * m){
     no->filhos = NULL;
     no->cor = -1;
     no->passos = 0;
+    no->nfilhos = 0;
     no->m = aloca_mapa(m);
     copia_mapa(m, no->m);
     return no;
@@ -23,6 +24,7 @@ tno * aloca_filho(tno * no_pai){
     filho = malloc(sizeof(tno));
     filho->pai = no_pai;
     filho->filhos = NULL;
+    filho->nfilhos = 0;
     filho->cor = 0;
     filho->passos = no_pai->passos + 1;
     filho->m = aloca_mapa(no_pai->m);
@@ -88,32 +90,19 @@ int * devolve_solucao(tno * no){
         j++;
     }
 //    printf("Cor:%d passos:%d\n", aux->cor, aux->passos);
+    free(tmp);
     return solucao;
 }
 
 
 void desaloca_no(tno * no){
-    if (no == NULL) return;
-    if (no->filhos != NULL){
-        for (int i = 0; i < no->nfilhos; i++){
-            free(no->filhos[i]);
-        }
-//        free(no->filhos);
-//        no->filhos = NULL;
-    }
     libera_mapa(no->m);
     free(no);
 }
 
 void desaloca_arvore(tno * no){
-    tno * aux = NULL;
     for (int i = 0; i < no->nfilhos; i++){
-        aux = no->filhos[i];
-        if (aux != NULL){
-            desaloca_arvore(aux);
-        }
+        desaloca_arvore(no->filhos[i]);
     }
-    if (aux){
-        desaloca_no(aux);
-    }
+    desaloca_no(no);
 }
