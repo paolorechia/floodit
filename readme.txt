@@ -32,12 +32,36 @@ Os programas 4 e 5 tem as heurísticas definidas em código fonte:
 $ ./aestrela2 < exemplo_mapa.txt
 
 
-Qual testar?
+O programa 1 é um algoritmo guloso que aplica a função heurística passada,
+e, se todos os nós tem mesma distância, escolhe um aleatoriamente.
 
-Para instâncias semelhantes ao exemplo (30x30), recomenda-se executar o aestrela3,
-que resolveu o exemplo em 88 passos.
+O programa 2 apenas aplica a heurística sem aleatoriedade.
+
+O programa 3 aplica uma única função de heurística para resolver o problema
+
+Os programas 4 e 5 aplicam uma combinação pré-definida de heurísticas.
 
 
+**************************************************************************
+
+Qual testar primeiro?
+
+1. A*
+
+Para instâncias semelhantes ao exemplo fornecido na especificação (30x30), 
+recomenda-se executar o aestrela3 que resolveu o exemplo em 88 passos.
+
+Para instâncias maiores, o aestrela2 (que é consideravelmente mais rápido),
+e consegue utilizar menos memória.
+
+O A* não resolve satisfatoriamente instâncias muito grandes (> 100x100),
+ou a heurística utiliza muito espaço em memória (pouco informada) ou toma 
+muito tempo de processamento.
+
+
+2. Guloso
+
+Se a memória estoura, utilizar algum algoritmo guloso como segunda opção.
 
 
 
