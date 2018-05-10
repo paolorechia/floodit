@@ -180,7 +180,7 @@ int heuristica_5(tmapa * m){
     int saltos = 0;
     explora_fronteira_fila(tmp, &saltos, &numero_componentes);
     libera_mapa(tmp);
-    return (saltos + numero_componentes)/m->nlinhas / 2  - 1;
+    return (saltos + numero_componentes)/(m->nlinhas/10)  - 1;
 }
 
 int heuristica_6(tmapa * m){
@@ -192,7 +192,8 @@ int heuristica_6(tmapa * m){
     int saltos = 0;
     explora_fronteira_fila(tmp, &saltos, &numero_componentes);
     libera_mapa(tmp);
-    return (saltos + numero_componentes)/50 - 1;
+    return (saltos + numero_componentes)/ (m->nlinhas/8)  - 1;
+//    return (saltos + numero_componentes)/ (m->nlinhas/2)  - 1;
 }
 
 // Retorna ponteiro para funcao de heuristica
