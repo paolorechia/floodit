@@ -127,10 +127,11 @@ static void explora_fronteira_fila(tmapa * tmp, int* saltos, int* numero_compone
     int x = 0;
     int y = 0;
     l_insert(fila, pos_atual);
+    free(pos_atual);
     int k = 0;
     while(fila->size > 0){ //&& k < 100){
         k++;
-        pos_atual= l_pop_first(fila);
+        pos_atual = l_pop_first(fila);
         while(pos_atual != NULL && pos_atual->v < 0){
             free(pos_atual);
             pos_atual= l_pop_first(fila);
@@ -151,6 +152,7 @@ static void explora_fronteira_fila(tmapa * tmp, int* saltos, int* numero_compone
                 nova_pos->l = f2->pos[k].l; nova_pos->c = f2->pos[k].c;
                 nova_pos->v = f2->pos[k].v;
                 l_insert(fila, nova_pos);
+                free(nova_pos);
             }
         }
         (*numero_componentes)++;
