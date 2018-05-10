@@ -31,6 +31,8 @@ aestrela: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.
 
 aestrela2: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela2.c
 
+memtest: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c memtest.c
+
 clean:
 	rm -f floodit geramapa verifica anima *.o
 	rm -f floodit_h1
