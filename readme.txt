@@ -69,13 +69,19 @@ Se a memória estoura, utilizar algum algoritmo guloso como segunda opção.
 
 Heuristicas:
 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
-7. 
+
+1. Conta quantas cores ainda existem em jogo e subtrai 1. Essa heurística
+   tem um custo de memória intrátavel de explorar com A*.
+2. Conta quantas células da matriz são  de diferentes da célula(0,0)
+3. Conta quantas células na diagonal são de cor diferente da célula(0,0)
+    --> Importante: essa heurística não resolve o problema, apenas ajuda
+        a alcançar a outra extremidade do tabuleiro.
+4. Realiza uma busca em largura nas fronteiras para contar quantos com-
+   ponentes de cor ainda estão em jogo. Conta o número vezes que um 
+   possível componente é enfileirado. 
+5. Igual ao 4, porém com poluição do resultado para diminuir a superestima-
+   ção da distância (embora ainda superestime).
+6. (Em desenvolvimento)
 
 
 **************************************************************************
