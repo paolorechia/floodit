@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
     // frees
     free(solucao);
     desaloca_h(heap);
-//    desaloca_arvore(arvore);
+    desaloca_arvore(arvore);
 
     return 0;
 }
