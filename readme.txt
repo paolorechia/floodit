@@ -8,7 +8,18 @@ Alunos: Michel ... GRR
         Paolo Andreas Stall Rechia - GRR 20135196     
 **************************************************************************
 
-Uso:
+
+Tópicos:
+
+1. Uso
+2. Qual testar primeiro?
+3. Heuristicas
+4. Sobre o código
+5. Limite de memória
+6. Como melhorar
+**************************************************************************
+
+1. Uso
 
 $ make
 
@@ -44,9 +55,9 @@ Os programas 4 e 5 aplicam uma combinação pré-definida de heurísticas.
 
 **************************************************************************
 
-Qual testar primeiro?
+2. Qual testar primeiro?
 
-1. A*
+--> A*
 
 Para instâncias semelhantes ao exemplo fornecido na especificação (30x30), 
 recomenda-se executar o aestrela3 que resolveu o exemplo em 88 passos.
@@ -59,7 +70,7 @@ ou a heurística utiliza muito espaço em memória (pouco informada) ou toma
 muito tempo de processamento.
 
 
-2. Guloso
+--> Guloso
 
 Se a memória estoura, utilizar algum algoritmo guloso como segunda opção.
 
@@ -67,22 +78,54 @@ Se a memória estoura, utilizar algum algoritmo guloso como segunda opção.
 
 **************************************************************************
 
-Heuristicas:
+3. Heuristicas:
 
 
-1. Conta quantas cores ainda existem em jogo e subtrai 1. Essa heurística
+1 Conta quantas cores ainda existem em jogo e subtrai 1. Essa heurística
    tem um custo de memória intrátavel de explorar com A*.
-2. Conta quantas células da matriz são  de diferentes da célula(0,0)
-3. Conta quantas células na diagonal são de cor diferente da célula(0,0)
+2 Conta quantas células da matriz são  de diferentes da célula(0,0)
+3 Conta quantas células na diagonal são de cor diferente da célula(0,0)
     --> Importante: essa heurística não resolve o problema, apenas ajuda
         a alcançar a outra extremidade do tabuleiro.
-4. Realiza uma busca em largura nas fronteiras para contar quantos com-
+4 Realiza uma busca em largura nas fronteiras para contar quantos com-
    ponentes de cor ainda estão em jogo. Conta o número vezes que um 
    possível componente é enfileirado. 
-5. Igual ao 4, porém com poluição do resultado para diminuir a superestima-
+5 Igual ao 4, porém com poluição do resultado para diminuir a superestima-
    ção da distância (embora ainda superestime).
-6. (Em desenvolvimento)
+6 (Em desenvolvimento)
 
 
 **************************************************************************
 
+4. Código Fonte
+
+Todo código foi construída em cima da implementação do floodit fornecida
+na especificação do trabalho.
+Para implementar o A*, foi necessário implementar duas estruturas de dados:
+
+- tree.c, uma árvore genérica, com ramificação variável, onde cada nó armazena
+um mapa (um estado) do jogo, o número de passos utilizados.
+- heap.c, uma heap que armazena ponteiros para os nós da árvore de estados, 
+utilizando a o número de passos + o valor da heurística para o estado atual
+como chave de prioridade. 
+
+
+**************************************************************************
+
+5. Limite de memória
+
+Os programas que utilizam a tree.c ou a heap.c (todos, exceto o guloso2),
+tem no código fonte um limite (aproximado grosseiramente) de memória máxima
+que o programa pode utilizar. Atingindo esse limite, o programa encerrará
+sua execução imediatamente.
+
+Pode haver casos em que a aproximação erra e o limite é excedido. Utilizar
+com cuidado.
+
+Por padrão, deixou-se o limite configurado para 2 gb. No geral, esse limite
+parece ser menos importante do que a precisão da heurística utilizada, isto é,
+heurísticas pouco informadas consomem toda a memória, independentemente do limite.
+
+**************************************************************************
+
+6. Como melhorar
