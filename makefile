@@ -31,6 +31,8 @@ aestrela: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.
 
 aestrela2: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela2.c
 
+aestrela3: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela3.c
+
 memtest: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c memtest.c
 
 clean:
