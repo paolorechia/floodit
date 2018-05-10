@@ -129,3 +129,12 @@ heurísticas pouco informadas consomem toda a memória, independentemente do lim
 **************************************************************************
 
 6. Como melhorar
+
+Sabemos que as soluções encontradas pelo A* estão longe do ideal. Duas ideias
+para melhorá-las seriam:
+
+--> Definir heurísticas mais bem informadas e admissíveis.
+--> Utilizar um algoritmo de memória limitada para explorar heurísticas pouco
+    informadas sem estourar a memória.
+
+**************************************************************************
