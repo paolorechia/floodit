@@ -29,6 +29,8 @@ guloso2: mapa.h mapa.c list.h list.c heuri.h heuri.c guloso2.c
 
 aestrela: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela.c
 
+aestrela2: mapa.h mapa.c list.h list.c heuri.h heuri.c tree.h tree.c heap.h heap.c aestrela2.c
+
 clean:
 	rm -f floodit geramapa verifica anima *.o
 	rm -f floodit_h1

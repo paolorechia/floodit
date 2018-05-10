@@ -12,6 +12,8 @@ int heuristica_1(tmapa * m);
 int heuristica_2(tmapa * m);
 int heuristica_3(tmapa * m);
 int heuristica_4(tmapa * m);
+int heuristica_5(tmapa * m);
+int heuristica_6(tmapa * m);
 
 
 #endif
