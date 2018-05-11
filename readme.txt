@@ -4,7 +4,7 @@ CI209 - Inteligência Artificial - 2018-1
 **************************************************************************
 Trabalho Prático 1                                    
 Prof. Fabiano                                         
-Alunos: Michel ... GRR                                
+Alunos: Michel Melo de Souza ... GRR 20159342                                
         Paolo Andreas Stall Rechia - GRR 20135196     
 **************************************************************************
 
