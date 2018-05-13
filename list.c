@@ -21,7 +21,6 @@
         node = node -> nxt;
     }
     node->nxt=malloc(sizeof(tnode));
-    (node->nxt->key,new);
     node->nxt->key = malloc(sizeof(tpos));
     node->nxt->key->c = new->c;
     node->nxt->key->l = new->l;
@@ -81,7 +80,6 @@ tpos * l_pop_first(thead * head){
 
 //Funçao para limpar a lista.
  int l_clear(thead * head){
-    tnode * node = head->node;
     if (head->node->nxt == NULL){
         return 0;
     }

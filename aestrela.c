@@ -58,8 +58,6 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     int distancia = 999999;
     int i;
-    int j = 0;
-    int limite = 1;
     tno * minimo = arvore;
 
     // h eh ponteiro de funcao

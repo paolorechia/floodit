@@ -50,5 +50,6 @@ void mostra_mapa_cor(tmapa*);
 void pinta_mapa(tmapa*, int);
 
 void fronteira_mapa(tmapa*, tfronteira*);
+void insere_fronteira(tfronteira *f, int l, int c, int v);
 
 #endif
