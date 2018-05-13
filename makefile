@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wno-unused-result -O3 
+CFLAGS = -g -Wall -Wno-unused-result -O2 
 
 #all: floodit util heuristicas heap heuri tree
 all: floodit util heuristicas guloso guloso2 aestrela aestrela2 aestrela3

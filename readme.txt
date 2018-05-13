@@ -60,7 +60,10 @@ Os programas 4 e 5 aplicam uma combinação pré-definida de heurísticas.
 --> A*
 
 Para instâncias semelhantes ao exemplo fornecido na especificação (30x30), 
-recomenda-se executar o aestrela3 que resolveu o exemplo em 88 passos.
+recomenda-se executar o aestrela3 que resolveu o exemplo em 88 passos
+---(Infelizmente esse programa não rodou na MACALAN (Falha de segmentação).
+Usando o valgrind o motivo real apareceu: falta de memória.
+Se isso acontecer, utilizar o aestrela2).
 
 Para instâncias maiores, o aestrela2 (que é consideravelmente mais rápido),
 e consegue utilizar menos memória.
@@ -72,7 +75,8 @@ muito tempo de processamento.
 
 --> Guloso
 
-Se a memória estoura, utilizar algum algoritmo guloso como segunda opção.
+Se ainda assim a memória estoura, utilizar algum algoritmo guloso como segunda
+opção.
 
 
 
@@ -138,3 +142,8 @@ para melhorá-las seriam:
     informadas sem estourar a memória.
 
 **************************************************************************
+
+7. Compilação com -O3
+
+Por algum motivo, com otimização máxima os programas não funcionaram na
+MACALAN, então o makefile vem com -O2. 
