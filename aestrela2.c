@@ -22,14 +22,15 @@ int main(int argc, char **argv) {
 
     unsigned long int tam_mapa =sizeof(char) * m.ncolunas * m.nlinhas;
     // aproximacao grosseira para fator medio de ramificacao
-    unsigned long int fator_r= m.ncolunas;     
+//    unsigned long int fator_r= m.ncolunas;     
     unsigned long int tam_no = sizeof(tno) + tam_mapa * 4;
     unsigned long int numero_nos = 0;
     unsigned long int restricao_memoria = 2 * gb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
-    unsigned long int memoria_usada = numero_nos * tam_no;
+//    unsigned long int memoria_usada = numero_nos * tam_no;
 
 
+/*
     printf("tam_mapa %lu\n",tam_mapa);
     // aproximacao grosseira para fator medio de ramificacao
     printf("fator_r: %lu\n", fator_r);
@@ -38,6 +39,7 @@ int main(int argc, char **argv) {
     printf("restricao_memoria: %lu\n", restricao_memoria);
     printf("memoria_usada: %lu\n", memoria_usada);
     printf("maximo_nos: %lu\n", maximo_nos);
+*/
     
     /* Busca aestrela */
     srand(time(NULL));
@@ -62,7 +64,7 @@ int main(int argc, char **argv) {
             expande_no(minimo);
             /* Teste memoria */
             numero_nos += minimo->nfilhos;
-            memoria_usada = numero_nos * tam_no;
+//            memoria_usada = numero_nos * tam_no;
 //            printf("numero_nos: %lu/%lu\n", numero_nos, maximo_nos);
 //            printf("memoria_usada: %lu/%lu\n", memoria_usada, restricao_memoria);
             if (numero_nos > maximo_nos){
