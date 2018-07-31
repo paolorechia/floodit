@@ -1,3 +1,5 @@
+/*! \file */ 
+
 #ifndef __LIST_H__
 #define __LIST_H__ 
 
@@ -9,20 +11,33 @@
 /*************************************************/
 /* Estrutura de dados auxiliar - lista encadeada */
 /*************************************************/
+
+/**
+* @brief Estrutura da celula da lista encadeada 
+*/
 typedef struct cel_struct{
-    tpos * key;
-    struct cel_struct * nxt;
+    tpos * key; /**< Chave **/
+    struct cel_struct * nxt; /**< Ponteiro para proxima celula **/
 } tnode;
 
+/**
+* @brief Cabeca da lista
+  Esta struct aponta para a primeira celula da lista encadeada
+*/
 typedef struct head{
     tnode * node;
     int size;
 } thead;
 
 thead * l_init();
-//Funçao usada para inserir os tposs (vizinhança) na lista daquele vertice.
+/**
+ * @brief Funçao usada para inserir os tposs (vizinhança) na lista daquele vertice.
+ * Testando descricao
+ */
 void l_insert(thead *, tpos *);
-//Funçao auxiliar para ajudar a debugar o programa.
+/**
+* Funçao auxiliar para ajudar a debugar o programa.
+*/
 void l_print(thead * head);
 int l_size(thead * head);
 /* Funcao recursiva para limpar lista a partir do ultimo no*/

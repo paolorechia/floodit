@@ -1,7 +1,7 @@
 #include "list.h"
-/*************************************************/
-/* Estrutura de dados auxiliar - lista encadeada */
-/*************************************************/
+/*************************************************
+* Estrutura de dados auxiliar - lista encadeada 
+*************************************************/
 
 //Funçao que inicializa a lista usada para achar a diferença e a interseccao.
  thead * l_init(){
@@ -14,7 +14,9 @@
 }
 
 
-//Funçao usada para inserir os chars (vizinhança) na lista daquele vertice.
+/**
+* Funçao usada para inserir os chars (vizinhança) na lista daquele vertice.
+*/
  void l_insert(thead * head, tpos * new){
     tnode * node = head->node;
     while (node->nxt != NULL){
