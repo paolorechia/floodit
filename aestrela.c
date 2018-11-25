@@ -23,22 +23,22 @@ int main(int argc, char **argv) {
         return -1;
     }
     // map loading
-    tmapa m;
-    carrega_mapa(&m);
-    mostra_mapa(&m);
+    tmapa * mapa_inicial = carrega_mapa();
+    mostra_mapa(mapa_inicial);
 
     unsigned long int kb = 1024;
     unsigned long int mb = 1024 * kb;
     unsigned long int gb = 1024 * mb;
 
-    unsigned long int tam_mapa =sizeof(char) * m.ncolunas * m.nlinhas;
+    unsigned long int tam_mapa =sizeof(char) * mapa_inicial->ncolunas * mapa_inicial->nlinhas;
     // aproximacao grosseira para fator medio de ramificacao
-    unsigned long int fator_r= m.ncolunas;     
+    unsigned long int fator_r= mapa_inicial->ncolunas;     
     unsigned long int tam_no = sizeof(tmapa) + tam_mapa * 6;
     unsigned long int numero_nos = 0;
     unsigned long int restricao_memoria = 1 * mb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
     unsigned long int memoria_usada = numero_nos * tam_no;
+
 
     printf("tam_mapa %lu\n",tam_mapa);
     // aproximacao grosseira para fator medio de ramificacao
@@ -57,13 +57,13 @@ int main(int argc, char **argv) {
     theap * saved_elements;
 
     // mallocs and inits
-    estado_atual = aloca_mapa(&m);
-    copia_mapa(&m, estado_atual);
+    estado_atual = aloca_mapa(mapa_inicial);
+    copia_mapa(mapa_inicial, estado_atual);
 
-    front = aloca_fronteira(&m);
-    fronteira_mapa(&m, front);
+    front = aloca_fronteira(mapa_inicial);
+    fronteira_mapa(mapa_inicial, front);
 
-    int * vetor_cores = (int*) malloc((m.ncores) * sizeof(int));
+    int * vetor_cores = (int*) malloc((mapa_inicial->ncores) * sizeof(int));
 
     hashtable = h_init(maximo_nos);
     aloca_h(&heap, maximo_nos);
@@ -71,6 +71,7 @@ int main(int argc, char **argv) {
     int lim_inf = maximo_nos/2;
     aloca_h(&saved_elements, lim_inf + 1);
 
+    libera_mapa(mapa_inicial);
     /* Busca aestrela */
     srand(time(NULL));
     int distancia = 999999;
@@ -137,7 +138,6 @@ int main(int argc, char **argv) {
     printf("\n");
 
     // frees
-    libera_mapa(&m);
     libera_fronteira(front);
     free(vetor_cores);
     h_free(hashtable);

@@ -158,7 +158,6 @@ tmapa * aloca_mapa(tmapa *mo) {
 
 void libera_mapa(tmapa *m)  {
   int i;
-  
   free(m->mapa);
   free(m->sol);
   free(m);
@@ -171,29 +170,28 @@ void gera_mapa(tmapa *m, int semente) {
     srand(semente);  
   else
     srand(time(NULL));  
-  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int*));
+  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int));
   for(i = 0; i < m->nlinhas; i++) {
     for(j = 0; j < m->ncolunas; j++)
       m->mapa[i * m->nlinhas + j] = 1 + rand() % m->ncores;
   }
 }
 
-void carrega_mapa(tmapa *m) {
+tmapa * carrega_mapa() {
   int i, j;
 
+  tmapa * m = (tmapa *) malloc(sizeof(tmapa));
   scanf("%d", &(m->nlinhas));
   scanf("%d", &(m->ncolunas));
   scanf("%d", &(m->ncores));
-  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int*));
+  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int));
   for(i = 0; i < m->nlinhas; i++) {
     for(j = 0; j < m->ncolunas; j++)
       scanf("%d", &m->mapa[i * m->nlinhas + j]);
   }
   m->passos = 0;
-  m->sol = (int*) malloc(m->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int*));
-  for (int i = 0; i < m->nlinhas * SOLUTION_SIZE_FACTOR; i++){
-    m->sol[i]=-1;
-  }
+  m->sol = (int*) malloc(m->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int));
+  return m;
 }
 
 void mostra_mapa(tmapa *m) {
@@ -268,20 +266,25 @@ void limpa_mapa(tmapa *m) {
 }
 
 void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
-  int n = m->nlinhas;
-  if(m->mapa[l * n + c] == fundo) {
-    m->mapa[l * n + c] *= -1;
-    if(l < m->nlinhas - 1)
-      fronteira(m, l+1, c, fundo, f);
-    if(c < m->ncolunas - 1)
-      fronteira(m, l, c+1, fundo, f);
-    if(l > 0)
-      fronteira(m, l-1, c, fundo, f);
-    if(c > 0)
-      fronteira(m, l, c-1, fundo, f);
-  }
-  else if(m->mapa[l*n +c] != -fundo) {
-    insere_fronteira(f, l, c, m->mapa[l*n+c]);
+
+  int x_limit = m->ncolunas -1;
+  int y_limit = m->nlinhas -1;
+  if (l >= 0 && c >= 0 && l < y_limit && c < x_limit){
+    int n = m->nlinhas;
+    if(m->mapa[l * n + c] == fundo) {
+      m->mapa[l * n + c] *= -1;
+      if(l < m->nlinhas - 1)
+        fronteira(m, l+1, c, fundo, f);
+      if(c < m->ncolunas - 1)
+        fronteira(m, l, c+1, fundo, f);
+      if(l > 0)
+        fronteira(m, l-1, c, fundo, f);
+      if(c > 0)
+        fronteira(m, l, c-1, fundo, f);
+    }
+    else if(m->mapa[l*n +c] != -fundo) {
+      insere_fronteira(f, l, c, m->mapa[l*n+c]);
+    }
   }
 }
 
