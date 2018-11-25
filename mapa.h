@@ -1,6 +1,8 @@
 #ifndef __MAPA_H__
 #define __MAPA_H__
 
+#define SOLUTION_SIZE_FACTOR 10
+
 typedef struct {
   int nlinhas;
   int ncolunas;
@@ -8,6 +10,8 @@ typedef struct {
   int lmax;
   int cmax;
   int **mapa;
+  int *sol;
+  int passos;
 } tmapa;
 
 typedef struct {
@@ -48,6 +52,8 @@ void carrega_mapa(tmapa*);
 void mostra_mapa(tmapa*);
 void mostra_mapa_cor(tmapa*);
 void pinta_mapa(tmapa*, int);
+
+int compara_mapas(tmapa*, tmapa *);
 
 void fronteira_mapa(tmapa*, tfronteira*);
 void insere_fronteira(tfronteira *f, int l, int c, int v);

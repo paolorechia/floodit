@@ -134,6 +134,10 @@ void copia_mapa(tmapa *mo, tmapa *md)  {
   for(i = 0; i < md->nlinhas; i++)
     for(j = 0; j < md->ncolunas; j++)
       md->mapa[i][j] = mo->mapa[i][j];
+  md->passos = mo->passos;
+  for (int i = 0; i < mo->passos; i++){
+    md->sol[i] = mo->sol[i];
+  }
 }
 
 tmapa * aloca_mapa(tmapa *mo) {
@@ -145,6 +149,7 @@ tmapa * aloca_mapa(tmapa *mo) {
   md->ncolunas = mo->ncolunas;
   md->ncores = mo->ncores;
   md->mapa = (int**) malloc(md->nlinhas * sizeof(int*));
+  md->sol = (int*) malloc(md->nlinhas * SOLUTION_SIZE_FACTOR);
   for(i = 0; i < md->nlinhas; i++)
     md->mapa[i] = (int*) malloc(md->ncolunas * sizeof(int));
   return md;
@@ -156,6 +161,7 @@ void libera_mapa(tmapa *m)  {
   for(i = 0; i < m->nlinhas; i++)
     free(m->mapa[i]);
   free(m->mapa);
+  free(m->sol);
   free(m);
 }
 
@@ -185,6 +191,10 @@ void carrega_mapa(tmapa *m) {
     m->mapa[i] = (int*) malloc(m->ncolunas * sizeof(int));
     for(j = 0; j < m->ncolunas; j++)
       scanf("%d", &(m->mapa[i][j]));
+  }
+  m->passos = 0;
+  for (int i = 0; i < m->nlinhas * SOLUTION_SIZE_FACTOR; i++){
+    m->sol[i]=-1;
   }
 }
 
@@ -275,5 +285,19 @@ void fronteira_mapa(tmapa *m, tfronteira *f) {
   f->tamanho = 0;
   fronteira(m, 0, 0, m->mapa[0][0], f);
   limpa_mapa(m);
+}
+
+// assume que ambos os mapas sao do mesmo tamanho
+int compara_mapas(tmapa* m1, tmapa * m2){
+  int n = m1->nlinhas;
+  int m = m1->ncolunas;
+  for (int i = 0; i < n; ++i){
+    for (int j = 0; j < m; ++j){
+      if (m1->mapa[i][j] != m2->mapa[i][j]){
+        return 0;
+      }
+    }
+  }
+  return 1;
 }
 

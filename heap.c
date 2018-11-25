@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
 #include "heap.h"
 
 
@@ -23,7 +20,7 @@ int desaloca_h(theap * heap){
 
 int troca_h(tcelula_h * elem1, tcelula_h * elem2){
     int aux = (*elem1).chave;
-    tno * p_aux = (*elem1).ponteiro;
+    tmapa * p_aux = (*elem1).ponteiro;
     (*elem1).chave = (*elem2).chave;
     (*elem1).ponteiro = (*elem2).ponteiro;
     (*elem2).chave = aux;
@@ -90,7 +87,7 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
     }
     return 0;
 }
-int insere_h(theap * heap, int chave, tno * p_dado){
+int insere_h(theap * heap, int chave, tmapa * p_dado){
     if (heap->usado >= heap->tam){
         return - 1; // heap cheia, impossivel inserir
     }
