@@ -25,6 +25,24 @@
     return;
 }
 
+int l_remove(thead * head, tmapa * remover){
+    tnode * node = head->node;
+    if (head->size > 0){
+      do{
+        tnode * ant = node;
+        node = node -> nxt;
+        if (compara_mapas(node->key, remover)){
+          ant->nxt = node->nxt; 
+          libera_mapa(node->key);
+          free(node);
+          head->size--;
+          return 1; 
+        }
+      } while (node != NULL);
+    }
+    return 0;
+}
+
 //Funçao auxiliar para ajudar a debugar o programa.
  void l_print(thead * head){
     printf("--------->"); 

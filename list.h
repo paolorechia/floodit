@@ -18,6 +18,7 @@ typedef struct head{
 
 thead * l_init();
 void l_insert(thead * head, tmapa * new);
+int l_remove(thead * head, tmapa * remover);
 void l_print(thead * head);
 int l_size(thead * head);
 int rec_clear(tnode * node);

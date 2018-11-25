@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     unsigned long int fator_r= m.ncolunas;     
     unsigned long int tam_no = sizeof(tmapa) + tam_mapa * 6;
     unsigned long int numero_nos = 0;
-    unsigned long int restricao_memoria = 2 * gb;
+    unsigned long int restricao_memoria = 1 * mb;
     unsigned long int maximo_nos = restricao_memoria / tam_no;
     unsigned long int memoria_usada = numero_nos * tam_no;
 
@@ -54,6 +54,7 @@ int main(int argc, char **argv) {
     tfronteira * front;
     thashtable * hashtable;
     theap * heap;
+    theap * saved_elements;
 
     // mallocs and inits
     estado_atual = aloca_mapa(&m);
@@ -67,9 +68,13 @@ int main(int argc, char **argv) {
     hashtable = h_init(maximo_nos);
     aloca_h(&heap, maximo_nos);
 
+    int lim_inf = maximo_nos/2;
+    aloca_h(&saved_elements, lim_inf + 1);
+
     /* Busca aestrela */
     srand(time(NULL));
     int distancia = 999999;
+    int removed = 0;
 
     tmapa * aux;
 
@@ -90,13 +95,38 @@ int main(int argc, char **argv) {
               f = (*h)(aux); 
               distancia = aux->passos + f;
               insere_h(heap, distancia, aux);
-            }
-            // state already exists, free map
-            else{
+              numero_nos++;
+            } else{
             libera_mapa(aux);
             }
           }
         }
+        if (heap->usado >= maximo_nos){
+          printf("Estouramos a memoria!\n");          
+          while(heap->usado > lim_inf){
+            tcelula_h * elem_heap = pega_min_h(heap); 
+            insere_h(saved_elements, elem_heap->chave, elem_heap->ponteiro);
+            free(elem_heap);
+            numero_nos--;
+          }
+          // Discard remainder
+          tcelula_h * elem_heap = pega_min_h(heap); 
+          while(elem_heap != NULL){
+            if(h_removestate(hashtable, elem_heap->ponteiro)){
+              removed++;
+          //    printf("Removed:%d \n", removed); 
+            }
+            free(elem_heap); 
+            elem_heap = pega_min_h(heap); 
+          }
+          elem_heap = pega_min_h(saved_elements);
+          while(elem_heap != NULL){
+            insere_h(heap, elem_heap->chave, elem_heap->ponteiro);
+            free(elem_heap);
+            elem_heap = pega_min_h(saved_elements);
+          }
+        }
+        printf("numero_nos: %lu\n", heap->usado);
         tcelula_h * elem_heap = pega_min_h(heap); 
         estado_atual = elem_heap->ponteiro;            
         free(elem_heap);

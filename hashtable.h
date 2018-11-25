@@ -19,6 +19,8 @@ thashtable * h_init(int table_s);
 int h_genkey(tmapa * state, int table_s);
 // Insert state into hash table
 int h_insert(thashtable * hash, tmapa * state);
+// Remove state from hash table
+int h_removestate(thashtable * hash, tmapa * state);
 // Returns a linked list where the state may be found
 thead * h_getlist(thashtable * hash, int key);
 // Check if state is in hash table
