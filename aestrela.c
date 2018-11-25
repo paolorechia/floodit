@@ -66,10 +66,10 @@ int main(int argc, char **argv) {
     int * vetor_cores = (int*) malloc((mapa_inicial->ncores) * sizeof(int));
 
     hashtable = h_init(maximo_nos);
-    aloca_h(&heap, maximo_nos);
+    heap = aloca_h(maximo_nos);
 
     int lim_inf = maximo_nos/2;
-    aloca_h(&saved_elements, lim_inf + 1);
+    saved_elements = aloca_h(lim_inf + 1);
 
     libera_mapa(mapa_inicial);
     /* Busca aestrela */

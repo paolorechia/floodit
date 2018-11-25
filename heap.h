@@ -17,7 +17,7 @@ typedef struct{
     tcelula_h * vetor;
 } theap;
 
-int aloca_h(theap ** heap, int cap);
+theap * aloca_h(int cap);
 int desaloca_h(theap * heap);
 
 int pai_h(int i);

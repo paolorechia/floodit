@@ -1,15 +1,15 @@
 #include "heap.h"
 
 
-int aloca_h(theap ** heap, int cap){
-    *heap = malloc(sizeof(theap));
-    (*heap)->tam = cap;   
-    (*heap)->vetor = malloc((*heap)->tam * sizeof(tcelula_h));
-    (*heap)->usado = -1;
+theap * aloca_h(int cap){
+    theap * heap = (theap*) malloc(sizeof(theap));
+    heap->tam = cap;   
+    heap->vetor = (tcelula_h *) malloc(heap->tam * sizeof(tcelula_h));
+    heap->usado = -1;
     for (int i = 0; i < cap; i++){
-        (*heap)->vetor[i].chave = 0;
+        heap->vetor[i].chave = 0;
     }
-    return 0;
+    return heap;
 }
 
 int desaloca_h(theap * heap){
@@ -88,7 +88,7 @@ int diminui_chave_h(theap * heap, int i, int nova_chave){
     return 0;
 }
 int insere_h(theap * heap, int chave, tmapa * p_dado){
-    if (heap->usado >= heap->tam){
+    if (heap->usado >= heap->tam - 1){
         return - 1; // heap cheia, impossivel inserir
     }
     else{
