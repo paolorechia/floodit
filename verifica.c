@@ -4,19 +4,19 @@
 
 int main(int argc, char **argv) {
   int i;
-  tmapa m;
+  tmapa * m;
   tfronteira *f;
   tplano *p;
 
-  carrega_mapa(&m);
-  p = aloca_plano(&m);
+  m = carrega_mapa();
+  p = aloca_plano(m);
   carrega_plano(p);
-  f = aloca_fronteira(&m);
+  f = aloca_fronteira(m);
 
   for(i = 0; i < p->passos; i++) {
-    pinta_mapa(&m, p->cor[i]);
-    fronteira_mapa(&m, f);
-  }    
+    pinta_mapa(m, p->cor[i]);
+    fronteira_mapa(m, f);
+  }
   if(f->tamanho){
     printf("Solucao incorreta\n");
     return 1;

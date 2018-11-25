@@ -229,8 +229,8 @@ void mostra_mapa_cor(tmapa *m) {
         printf("%s%02d%s ", cor_ansi[cur], cur, cor_ansi[0]);
       else
         printf("%s%d%s ", cor_ansi[cur], cur, cor_ansi[0]);
-    printf("\n");
     }
+  printf("\n");
   }
 }
 
@@ -267,9 +267,6 @@ void limpa_mapa(tmapa *m) {
 
 void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
 
-  int x_limit = m->ncolunas -1;
-  int y_limit = m->nlinhas -1;
-  if (l >= 0 && c >= 0 && l < y_limit && c < x_limit){
     int n = m->nlinhas;
     if(m->mapa[l * n + c] == fundo) {
       m->mapa[l * n + c] *= -1;
@@ -285,7 +282,6 @@ void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
     else if(m->mapa[l*n +c] != -fundo) {
       insere_fronteira(f, l, c, m->mapa[l*n+c]);
     }
-  }
 }
 
 void fronteira_mapa(tmapa *m, tfronteira *f) {
