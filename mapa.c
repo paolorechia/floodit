@@ -135,7 +135,7 @@ void copia_mapa(tmapa *mo, tmapa *md)  {
 
   for(int i = 0; i < md->nlinhas; i++)
     for(int j = 0; j < md->ncolunas; j++)
-      md->mapa[i][j] = mo->mapa[i][j];
+      md->mapa[i * md->nlinhas + j] = mo->mapa[i * md->nlinhas + j];
 
   md->passos = mo->passos;
   for (int i = 0; i < mo->passos; i++){
@@ -151,10 +151,7 @@ tmapa * aloca_mapa(tmapa *mo) {
   md->nlinhas = mo->nlinhas;
   md->ncolunas = mo->ncolunas;
   md->ncores = mo->ncores;
-  md->mapa = (int**) malloc(md->nlinhas * sizeof(int*));
-  for(i = 0; i < md->nlinhas; i++)
-    md->mapa[i] = (int*) malloc(md->ncolunas * sizeof(int));
-
+  md->mapa = (int*) malloc(md->nlinhas * md->ncolunas * sizeof(int*));
   md->sol = (int*) malloc(md->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int));
   return md;
 }
@@ -162,8 +159,6 @@ tmapa * aloca_mapa(tmapa *mo) {
 void libera_mapa(tmapa *m)  {
   int i;
   
-  for(i = 0; i < m->nlinhas; i++)
-    free(m->mapa[i]);
   free(m->mapa);
   free(m->sol);
   free(m);
@@ -176,11 +171,10 @@ void gera_mapa(tmapa *m, int semente) {
     srand(semente);  
   else
     srand(time(NULL));  
-  m->mapa = (int**) malloc(m->nlinhas * sizeof(int*));
+  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int*));
   for(i = 0; i < m->nlinhas; i++) {
-    m->mapa[i] = (int*) malloc(m->ncolunas * sizeof(int));
     for(j = 0; j < m->ncolunas; j++)
-      m->mapa[i][j] = 1 + rand() % m->ncores;
+      m->mapa[i * m->nlinhas + j] = 1 + rand() % m->ncores;
   }
 }
 
@@ -190,11 +184,10 @@ void carrega_mapa(tmapa *m) {
   scanf("%d", &(m->nlinhas));
   scanf("%d", &(m->ncolunas));
   scanf("%d", &(m->ncores));
-  m->mapa = (int**) malloc(m->nlinhas * sizeof(int*));
+  m->mapa = (int*) malloc(m->nlinhas * m->ncolunas * sizeof(int*));
   for(i = 0; i < m->nlinhas; i++) {
-    m->mapa[i] = (int*) malloc(m->ncolunas * sizeof(int));
     for(j = 0; j < m->ncolunas; j++)
-      scanf("%d", &(m->mapa[i][j]));
+      scanf("%d", &m->mapa[i * m->nlinhas + j]);
   }
   m->passos = 0;
   m->sol = (int*) malloc(m->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int*));
@@ -210,9 +203,9 @@ void mostra_mapa(tmapa *m) {
   for(i = 0; i < m->nlinhas; i++) {
     for(j = 0; j < m->ncolunas; j++)
       if(m->ncores > 10)
-	printf("%02d ", m->mapa[i][j]);
+	printf("%02d ", m->mapa[i * m->nlinhas + j]);
       else
-	printf("%d ", m->mapa[i][j]);
+	printf("%d ", m->mapa[i * m->nlinhas + j]);
     printf("\n");
   }
 }
@@ -232,31 +225,34 @@ void mostra_mapa_cor(tmapa *m) {
   }
   printf("%d %d %d\n", m->nlinhas, m->ncolunas, m->ncores);
   for(i = 0; i < m->nlinhas; i++) {
-    for(j = 0; j < m->ncolunas; j++)
+    for(j = 0; j < m->ncolunas; j++){
+      int cur = m->mapa[i * m->nlinhas + j];
       if(m->ncores >= 10)
-        printf("%s%02d%s ", cor_ansi[m->mapa[i][j]], m->mapa[i][j], cor_ansi[0]);
+        printf("%s%02d%s ", cor_ansi[cur], cur, cor_ansi[0]);
       else
-        printf("%s%d%s ", cor_ansi[m->mapa[i][j]], m->mapa[i][j], cor_ansi[0]);
+        printf("%s%d%s ", cor_ansi[cur], cur, cor_ansi[0]);
     printf("\n");
+    }
   }
 }
 
 void pinta(tmapa *m, int l, int c, int fundo, int cor) {
-  m->mapa[l][c] = cor;
-  if(l < m->nlinhas - 1 && m->mapa[l+1][c] == fundo)
-    pinta(m, l+1, c, fundo, cor);
-  if(c < m->ncolunas - 1 && m->mapa[l][c+1] == fundo)
-    pinta(m, l, c+1, fundo, cor);
-  if(l > 0 && m->mapa[l-1][c] == fundo)
-    pinta(m, l-1, c, fundo, cor);
-  if(c > 0 && m->mapa[l][c-1] == fundo)
-    pinta(m, l, c-1, fundo, cor);
+  int n = m->nlinhas;
+  m->mapa[l * n + c] = cor;
+  if(l < (m->nlinhas - 1) && m->mapa[(l+1) * n + c] == fundo)
+    pinta(m, l + 1, c, fundo, cor);
+  if(c < (m->ncolunas - 1) && m->mapa[l * n + (c+1)] == fundo)
+    pinta(m, l, c + 1, fundo, cor);
+  if(l > 0 && m->mapa[(l-1) * n + c] == fundo)
+    pinta(m, l - 1, c, fundo, cor);
+  if(c > 0 && m->mapa[l * n + (c-1)] == fundo)
+    pinta(m, l, c - 1, fundo, cor);
 }
 
 void pinta_mapa(tmapa *m, int cor) {
-  if(cor == m->mapa[0][0])
+  if(cor == m->mapa[0])
     return;
-  pinta(m, 0, 0, m->mapa[0][0], cor);
+  pinta(m, 0, 0, m->mapa[0], cor);
 }
 
 void limpa_mapa(tmapa *m) {
@@ -264,14 +260,17 @@ void limpa_mapa(tmapa *m) {
   int j;
 
   for(i = 0; i < m->nlinhas; i++)
-    for(j = 0; j < m->ncolunas; j++)
-      if(m->mapa[i][j] < 0)
-	m->mapa[i][j] *= -1;
+    for(j = 0; j < m->ncolunas; j++){
+      int cur = m->mapa[i * m->nlinhas + j];
+        if(cur < 0)
+          m->mapa[i * m->nlinhas + j] = -cur;
+    }
 }
 
 void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
-  if(m->mapa[l][c] == fundo) {
-    m->mapa[l][c] *= -1;
+  int n = m->nlinhas;
+  if(m->mapa[l * n + c] == fundo) {
+    m->mapa[l * n + c] *= -1;
     if(l < m->nlinhas - 1)
       fronteira(m, l+1, c, fundo, f);
     if(c < m->ncolunas - 1)
@@ -281,14 +280,14 @@ void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
     if(c > 0)
       fronteira(m, l, c-1, fundo, f);
   }
-  else if(m->mapa[l][c] != -fundo) {
-    insere_fronteira(f, l, c, m->mapa[l][c]);
+  else if(m->mapa[l*n +c] != -fundo) {
+    insere_fronteira(f, l, c, m->mapa[l*n+c]);
   }
 }
 
 void fronteira_mapa(tmapa *m, tfronteira *f) {
   f->tamanho = 0;
-  fronteira(m, 0, 0, m->mapa[0][0], f);
+  fronteira(m, 0, 0, m->mapa[0], f);
   limpa_mapa(m);
 }
 
@@ -298,7 +297,7 @@ int compara_mapas(tmapa* m1, tmapa * m2){
   int m = m1->ncolunas;
   for (int i = 0; i < n; ++i){
     for (int j = 0; j < m; ++j){
-      if (m1->mapa[i][j] != m2->mapa[i][j]){
+      if (m1->mapa[i * m1->nlinhas + j] != m2->mapa[i * m1->nlinhas + j]){
         return 0;
       }
     }

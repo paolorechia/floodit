@@ -15,7 +15,7 @@ int h_genkey(tmapa * state, int table_s){
   int key = 0;
   for (int i = 0; i < state->nlinhas; i++){
     for (int j = 0; j < state->ncolunas; j++){
-      key += state->mapa[i][j];
+      key += state->mapa[i * state->nlinhas +j];
     }
   }
   return key % table_s;

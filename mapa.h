@@ -7,7 +7,7 @@ typedef struct {
   int nlinhas;
   int ncolunas;
   int ncores;
-  int **mapa;
+  int *mapa;
   int *sol;
   int passos;
 } tmapa;

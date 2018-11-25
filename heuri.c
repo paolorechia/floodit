@@ -11,7 +11,7 @@ void obtem_cores(tmapa * m, int * vet_cor){
         vet_cor[i] = 0;
     }
     for (i = 0; i < f->tamanho; i++){
-        cor = m->mapa[f->pos[i].l][f->pos[i].c];
+        cor = m->mapa[f->pos[i].l * m->nlinhas + f->pos[i].c];
         vet_cor[cor-1]=1;
     }
     libera_fronteira(f);
@@ -27,7 +27,7 @@ int heuristica_1(tmapa * m){
     } 
     for (i = 0; i < m->nlinhas; i++){
         for (j = 0; j < m->ncolunas; j++){
-            vet_cor[m->mapa[i][j]]=1; 
+            vet_cor[m->mapa[i * m->nlinhas + j]]=1; 
         }
     }
     int qtde_cores = 0;
@@ -43,10 +43,10 @@ int heuristica_1(tmapa * m){
 // Conta quantas celulas falta para solucionar o floodit
 int heuristica_2(tmapa * m){
     int count = 0;
-    int cor_atual = m->mapa[0][0];
+    int cor_atual = m->mapa[0];
     for (int i =0; i < m->nlinhas;i++){
         for (int j = 0; j < m->ncolunas;j++){
-            if (m->mapa[i][j] != cor_atual){
+            if (m->mapa[i*m->nlinhas+j] != cor_atual){
                 count++; 
             }
         }
@@ -64,7 +64,7 @@ int heuristica_3(tmapa * m){
     }
     for (int i =0; i < m->nlinhas;i++){
         for (int j = 0; j < m->ncolunas;j++){
-            histograma_cores[m->mapa[i][j]] += 1;
+            histograma_cores[m->mapa[i*m->nlinhas+j]] += 1;
         }
     }
     // normalizando histograma
