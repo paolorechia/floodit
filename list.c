@@ -19,7 +19,7 @@
     }
     node->nxt=(tnode *) malloc(sizeof(tnode));
     node->nxt->key = aloca_mapa(new);
-    copia_mapa(node->nxt->key, new);
+    copia_mapa(new, node->nxt->key);
     node->nxt->nxt=NULL;
     head->size += 1;
     return;

@@ -106,8 +106,8 @@ int compara_pos(int l1, int c1, int l2, int c2) {
 }
 
 void insere_fronteira(tfronteira *f, int l, int c, int v) {
-  int i;
-  int j;
+  int i = 0;
+  int j = 0;
   int cmp;
 
   for(i = 0; i < f->tamanho; i++) {
@@ -129,11 +129,14 @@ void insere_fronteira(tfronteira *f, int l, int c, int v) {
 }
 
 void copia_mapa(tmapa *mo, tmapa *md)  {
-  int i, j;
-  
-  for(i = 0; i < md->nlinhas; i++)
-    for(j = 0; j < md->ncolunas; j++)
+  md->nlinhas= mo->nlinhas;
+  md->ncolunas= mo->ncolunas;
+  md->ncores = mo->ncores;
+
+  for(int i = 0; i < md->nlinhas; i++)
+    for(int j = 0; j < md->ncolunas; j++)
       md->mapa[i][j] = mo->mapa[i][j];
+
   md->passos = mo->passos;
   for (int i = 0; i < mo->passos; i++){
     md->sol[i] = mo->sol[i];
@@ -149,9 +152,10 @@ tmapa * aloca_mapa(tmapa *mo) {
   md->ncolunas = mo->ncolunas;
   md->ncores = mo->ncores;
   md->mapa = (int**) malloc(md->nlinhas * sizeof(int*));
-  md->sol = (int*) malloc(md->nlinhas * SOLUTION_SIZE_FACTOR);
   for(i = 0; i < md->nlinhas; i++)
     md->mapa[i] = (int*) malloc(md->ncolunas * sizeof(int));
+
+  md->sol = (int*) malloc(md->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int));
   return md;
 }
 
@@ -193,6 +197,7 @@ void carrega_mapa(tmapa *m) {
       scanf("%d", &(m->mapa[i][j]));
   }
   m->passos = 0;
+  m->sol = (int*) malloc(m->nlinhas * SOLUTION_SIZE_FACTOR * sizeof(int*));
   for (int i = 0; i < m->nlinhas * SOLUTION_SIZE_FACTOR; i++){
     m->sol[i]=-1;
   }
@@ -277,7 +282,7 @@ void fronteira(tmapa *m, int l, int c, int fundo, tfronteira *f) {
       fronteira(m, l, c-1, fundo, f);
   }
   else if(m->mapa[l][c] != -fundo) {
-    insere_fronteira(f, l, c, 0);
+    insere_fronteira(f, l, c, m->mapa[l][c]);
   }
 }
 

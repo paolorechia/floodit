@@ -7,8 +7,6 @@ typedef struct {
   int nlinhas;
   int ncolunas;
   int ncores;
-  int lmax;
-  int cmax;
   int **mapa;
   int *sol;
   int passos;

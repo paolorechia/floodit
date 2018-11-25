@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
     // map loading
     tmapa m;
     carrega_mapa(&m);
+    mostra_mapa(&m);
 
     unsigned long int kb = 1024;
     unsigned long int mb = 1024 * kb;
@@ -56,7 +57,7 @@ int main(int argc, char **argv) {
 
     // mallocs and inits
     estado_atual = aloca_mapa(&m);
-    copia_mapa(estado_atual, &m);
+    copia_mapa(&m, estado_atual);
 
     front = aloca_fronteira(&m);
     fronteira_mapa(&m, front);
@@ -80,11 +81,12 @@ int main(int argc, char **argv) {
         for (int cor = 0; cor < estado_atual->ncores; ++cor){
           if (vetor_cores[cor]){
             aux = aloca_mapa(estado_atual);
-            copia_mapa(aux, estado_atual); 
-            pinta_mapa(aux, cor);
+            copia_mapa(estado_atual, aux);
+            pinta_mapa(aux, cor+1);
+//            mostra_mapa(aux);
             if (h_insert(hashtable, aux)){
+              aux->sol[aux->passos]=(cor+1);
               aux->passos++;
-              aux->sol[aux->passos]=cor;
               f = (*h)(aux); 
               distancia = aux->passos + f;
               insere_h(heap, distancia, aux);
