@@ -102,19 +102,17 @@ int main(int argc, char **argv) {
           }
         }
         if (heap->usado >= maximo_nos){
-          printf("Estouramos a memoria!\n");          
+//          printf("Estouramos a memoria!\n");          
           while(heap->usado > lim_inf){
             tcelula_h * elem_heap = pega_min_h(heap); 
             insere_h(saved_elements, elem_heap->chave, elem_heap->ponteiro);
             free(elem_heap);
-            numero_nos--;
           }
           // Discard remainder
           tcelula_h * elem_heap = pega_min_h(heap); 
           while(elem_heap != NULL){
             if(h_removestate(hashtable, elem_heap->ponteiro)){
               removed++;
-          //    printf("Removed:%d \n", removed); 
             }
             free(elem_heap); 
             elem_heap = pega_min_h(heap); 
@@ -126,7 +124,7 @@ int main(int argc, char **argv) {
             elem_heap = pega_min_h(saved_elements);
           }
         }
-        printf("numero_nos: %lu\n", heap->usado);
+//        printf("numero_nos: %lu\n", heap->usado);
         tcelula_h * elem_heap = pega_min_h(heap); 
         estado_atual = elem_heap->ponteiro;            
         free(elem_heap);
@@ -139,9 +137,11 @@ int main(int argc, char **argv) {
     printf("\n");
 
     // frees
+    libera_mapa(&m);
     libera_fronteira(front);
     free(vetor_cores);
     h_free(hashtable);
     desaloca_h(heap);
+    desaloca_h(saved_elements);
     return 0;
 }

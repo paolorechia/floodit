@@ -75,7 +75,6 @@ int heuristica_3(tmapa * m){
         max_freq = histograma_cores[k];
       }
     }
-    
     free(histograma_cores);
     return tab_size - max_freq;
 }

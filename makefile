@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wno-unused-result -O2
+CFLAGS = -g -Wall -Wno-unused-result -O0
 
 #all: floodit util floodit_h1 aestrela 
 

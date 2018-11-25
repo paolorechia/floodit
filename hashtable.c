@@ -45,7 +45,13 @@ int h_removestate(thashtable * hash, tmapa * state){
   int key = h_genkey(state, hash->table_size);
   thead * list = h_getlist(hash, key);
   if (list == NULL) return 0;
-  return (l_remove(list, state));
+  if (l_remove(list, state)){
+    if (list->size == 0){
+      l_free(hash->table_p[key]);
+      hash->table_p[key] = NULL;
+    }
+  }
+  return 1;
 }
 
 thead * h_getlist(thashtable *hash, int key){
